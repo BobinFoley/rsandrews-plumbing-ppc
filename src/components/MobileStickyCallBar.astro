@@ -1,0 +1,137 @@
+---
+import { phone, phoneHref } from '../data/site';
+---
+
+<!-- Mobile-Only Sticky Bottom Call Bar -->
+<div class="mobile-sticky-bar" aria-label="Emergency Plumbing Call Bar">
+  <div class="mobile-sticky-inner">
+    <a href={phoneHref} class="mobile-call-cta" aria-label={`Call RS Andrews 24/7 at ${phone}`}>
+      <span class="mobile-phone-icon-wrap" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+        </svg>
+      </span>
+      <div class="mobile-cta-text">
+        <span class="mobile-cta-title">CALL {phone}</span>
+        <span class="mobile-cta-subtitle">24/7 Fast Local Service · Plumbers Stationed</span>
+      </div>
+      <span class="mobile-tap-badge">TAP TO CALL</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  /* Hidden on Desktop and Tablets */
+  .mobile-sticky-bar {
+    display: none;
+  }
+
+  /* Visible only on Mobile Devices */
+  @media (max-width: 768px) {
+    .mobile-sticky-bar {
+      display: block;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: #0f2738;
+      border-top: 2px solid #00a651;
+      padding: 8px 12px;
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    .mobile-sticky-inner {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .mobile-call-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: linear-gradient(180deg, #00b359 0%, #008f43 100%);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      border: 1px solid #007a38;
+      transition: transform 0.15s ease, background 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mobile-call-cta:active {
+      transform: scale(0.98);
+      background: #007a38;
+    }
+
+    .mobile-phone-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-ring 2s infinite ease-out;
+    }
+
+    .mobile-cta-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      text-align: left;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mobile-cta-title {
+      font-size: 1.12rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .mobile-cta-subtitle {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #e5ffe8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .mobile-tap-badge {
+      display: inline-block;
+      background: #ffe87a;
+      color: #11361c;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+  }
+</style>

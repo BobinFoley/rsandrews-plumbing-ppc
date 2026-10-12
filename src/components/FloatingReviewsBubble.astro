@@ -1,0 +1,124 @@
+---
+// Floating Google Reviews Bubble on lower left-hand side
+---
+
+<a
+  href="#reviews"
+  id="floating-reviews-bubble"
+  class="floating-reviews-bubble"
+  aria-label="View Google Reviews: 4.9 rating based on 9,559 customer reviews"
+  title="Click to jump to Google reviews"
+>
+  <div class="frb-google-icon" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3h3.88c2.27-2.09 3.665-5.17 3.665-9.09z"/>
+      <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.1C3.27 21.42 7.34 24 12 24z"/>
+      <path fill="#FBBC05" d="M5.28 14.32A7.18 7.18 0 0 1 4.9 12c0-.81.14-1.59.38-2.32V6.58H1.25A11.96 11.96 0 0 0 0 12c0 1.92.45 3.74 1.25 5.42l4.03-3.1z"/>
+      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.27 2.58 1.25 6.58l4.03 3.1c.95-2.83 3.6-4.93 6.72-4.93z"/>
+    </svg>
+  </div>
+  <div class="frb-content">
+    <div class="frb-rating-row">
+      <span class="frb-score">4.9</span>
+      <span class="frb-stars" aria-hidden="true">★★★★★</span>
+    </div>
+    <div class="frb-label">9,559 Google reviews</div>
+  </div>
+</a>
+
+<style>
+  .floating-reviews-bubble {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 999;
+    background: #ffffff;
+    color: #1a3348;
+    border-radius: 40px;
+    padding: 9px 18px 9px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    box-shadow: 0 6px 22px rgba(16, 44, 67, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08);
+    border: 1px solid #dce6ed;
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
+    user-select: none;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+  }
+  .floating-reviews-bubble:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(16, 44, 67, 0.24), 0 4px 10px rgba(0, 0, 0, 0.12);
+    background: #ffffff;
+    color: #0b559b;
+  }
+  .frb-google-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .frb-content {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    text-align: left;
+  }
+  .frb-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .frb-score {
+    font-weight: 800;
+    font-size: 0.96rem;
+    color: #1a3348;
+    letter-spacing: -0.01em;
+  }
+  .frb-stars {
+    color: #f59e0b;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+  }
+  .frb-label {
+    font-size: 0.75rem;
+    color: #557283;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+
+  @media (max-width: 768px) {
+    .floating-reviews-bubble {
+      bottom: 76px; /* Safe distance above sticky mobile call bar */
+      left: 12px;
+      padding: 7px 13px 7px 9px;
+    }
+    .frb-score {
+      font-size: 0.88rem;
+    }
+    .frb-label {
+      font-size: 0.68rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const bubble = document.getElementById('floating-reviews-bubble');
+    if (bubble) {
+      bubble.addEventListener('click', (e) => {
+        const reviewsTarget = document.getElementById('reviews');
+        if (reviewsTarget) {
+          e.preventDefault();
+          reviewsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (history.pushState) {
+            history.pushState(null, '', '#reviews');
+          } else {
+            location.hash = '#reviews';
+          }
+        }
+      });
+    }
+  });
+</script>

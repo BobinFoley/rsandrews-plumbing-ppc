@@ -1,0 +1,6 @@
+{
+  "summary":  "Implementation plan for gallery image deletion and placement cleanup in RS Andrews Media Hub.\nSupports deleting both custom uploaded pictures and built-in catalog images, with automatic warning and removal of active placements.",
+  "updatedAt":  "2026-10-10T16:26:24.624015171Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

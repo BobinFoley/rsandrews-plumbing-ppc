@@ -1,0 +1,475 @@
+---
+import { getCollection, render } from 'astro:content';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import FAQ from '../components/FAQ.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import { phone, phoneHref } from '../data/site';
+import { getPlacementsForPage } from '../data/placements';
+import { getCityGeoData } from '../data/city-geo';
+
+export async function getStaticPaths() {
+  const entries = [...await getCollection('locations'), ...await getCollection('services')];
+  return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const isLocation = entry.data.type === 'location';
+const currentPath = `/${entry.id}/`;
+const placements = getPlacementsForPage(currentPath);
+
+const heroPlacement = placements.find(p => p.zone === 'hero');
+const topPlacement = placements.find(p => p.zone === 'top-content' || (!heroPlacement && p.zone === 'hero'));
+const inContentPlacements = placements.filter(p => p.zone === 'in-content');
+
+const heroImage = heroPlacement?.image || '/images/plumber-rsandrews.webp';
+const heroImageAlt = heroPlacement?.imageAlt || `${entry.data.title} - RS Andrews Emergency Plumbing Metro Atlanta`;
+
+const displayImage = topPlacement?.image || (entry.data.pageImage || '/images/ac-repair.jpg');
+const displayImageAlt = topPlacement?.imageAlt || (entry.data.pageImageAlt || 'Air Conditioners, Heat Pumps, and Furnace Repairs');
+const displayCaption = topPlacement?.caption || 'Air Conditioners, Heat Pumps, and Furnace Repairs';
+
+const allLocations = await getCollection('locations');
+const locationMap = new Map(allLocations.map(item => [item.data.city?.toLowerCase(), item.id]));
+
+const col1Cities = ['Acworth', 'Alpharetta', 'Austell', 'Brookhaven', 'Buckhead', 'Buford', 'Chamblee', 'Clarkston', 'Cumming', 'Dacula'];
+const col2Cities = ['Decatur', 'Doraville', 'Druid Hills', 'Duluth', 'Dunwoody', 'East Cobb', 'Flowery Branch', 'Grayson', 'Holly Springs', 'Johns Creek'];
+const col3Cities = ['Kennesaw', 'Lawrenceville', 'Lilburn', 'Mableton', 'Marietta', 'Milton', 'Norcross', 'North Decatur', 'North Druid Hills', 'Peachtree Corners', 'Powder Springs'];
+const col4Cities = ['Roswell', 'Sandy Springs', 'Smyrna', 'Snellville', 'Stone Mountain', 'Sugar Hill', 'Suwanee', 'Tucker', 'Vinings', 'Woodstock'];
+
+function getCityHref(cityName: string) {
+  const slug = locationMap.get(cityName.toLowerCase());
+  return slug ? `/${slug}/` : '/sitemap/';
+}
+
+const cityName = entry.data.city || (isLocation ? entry.id.replace(/-(?:air-conditioning-repair|plumber|plumbing-repair|plumbing)$/, '') : undefined);
+const geoLookup = getCityGeoData(cityName || entry.id);
+
+// Dynamically generate SEO tags and coordinates
+const geoLatitude = entry.data.latitude || geoLookup?.latitude;
+const geoLongitude = entry.data.longitude || geoLookup?.longitude;
+const geoPlacename = geoLookup?.placename || (cityName ? `${geoLookup?.city || cityName}, Georgia` : undefined);
+const geoRegion = geoLookup?.region || (cityName ? 'US-GA' : undefined);
+const geoPosition = (geoLatitude && geoLongitude) ? `${geoLatitude};${geoLongitude}` : undefined;
+const geoIcbm = (geoLatitude && geoLongitude) ? `${geoLatitude}, ${geoLongitude}` : undefined;
+
+const serviceKeywords = !isLocation ? `${entry.data.title}, Atlanta plumbing service, emergency plumber Atlanta, water heater repair Atlanta GA, RS Andrews Plumbing` : undefined;
+const seoKeywords = entry.data.keywords || (geoLookup?.serviceKeywords ? geoLookup.serviceKeywords.join(', ') : (cityName ? `${cityName} plumber, emergency plumber ${cityName} GA, drain cleaning ${cityName}, water heater repair ${cityName} GA, RS Andrews ${cityName}` : serviceKeywords));
+
+const extraSchema: any[] = [];
+const canonicalUrl = `https://rsandrews.247hvac.repair${currentPath}`;
+
+if (isLocation && (cityName || geoLookup)) {
+  const displayCity = geoLookup?.city || cityName || entry.data.title;
+  extraSchema.push({
+    '@type': 'Service',
+    '@id': `${canonicalUrl}#service`,
+    name: `Plumbing & Drain Services in ${displayCity}, GA`,
+    serviceType: 'Emergency Plumbing, Water Heater, Drain Cleaning & Diagnostics',
+    description: entry.data.description,
+    image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+    provider: {
+      '@type': 'Plumber',
+      '@id': 'https://rsandrews.247hvac.repair/#business',
+      name: 'RS Andrews Plumbing',
+      telephone: phone,
+      url: 'https://rsandrews.247hvac.repair',
+      image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3617 Clearview Parkway',
+        addressLocality: 'Atlanta',
+        addressRegion: 'GA',
+        postalCode: '30340',
+        addressCountry: 'US'
+      }
+    },
+    areaServed: {
+      '@type': 'City',
+      name: displayCity,
+      ...(geoLookup?.postalCodes ? { postalCode: geoLookup.postalCodes } : {}),
+      containedInPlace: {
+        '@type': 'State',
+        name: 'Georgia'
+      },
+      ...(geoLatitude && geoLongitude ? {
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: geoLatitude,
+          longitude: geoLongitude
+        }
+      } : {})
+    },
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      servicePhone: {
+        '@type': 'ContactPoint',
+        telephone: phone,
+        contactType: 'emergency'
+      }
+    }
+  });
+
+  extraSchema.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://rsandrews.247hvac.repair/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Service Areas',
+        item: 'https://rsandrews.247hvac.repair/sitemap/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: entry.data.title,
+        item: canonicalUrl
+      }
+    ]
+  });
+} else if (!isLocation) {
+  extraSchema.push({
+    '@type': 'Service',
+    '@id': `${canonicalUrl}#service`,
+    name: entry.data.title,
+    serviceType: 'Plumbing and Drain Services',
+    description: entry.data.description,
+    image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+    provider: {
+      '@type': 'Plumber',
+      '@id': 'https://rsandrews.247hvac.repair/#business',
+      name: 'RS Andrews Plumbing',
+      telephone: phone,
+      url: 'https://rsandrews.247hvac.repair',
+      image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3617 Clearview Parkway',
+        addressLocality: 'Atlanta',
+        addressRegion: 'GA',
+        postalCode: '30340',
+        addressCountry: 'US'
+      }
+    },
+    areaServed: {
+      '@type': 'Place',
+      name: 'Metro Atlanta'
+    }
+  });
+
+  extraSchema.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://rsandrews.247hvac.repair/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: entry.data.title,
+        item: canonicalUrl
+      }
+    ]
+  });
+}
+
+const cityOrTitle = entry.data.city || entry.data.title;
+---
+
+<SiteLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  path={currentPath}
+  image={displayImage}
+  imageAlt={displayImageAlt}
+  keywords={seoKeywords}
+  geo={geoRegion ? { region: geoRegion, placename: geoPlacename, position: geoPosition, icbm: geoIcbm } : undefined}
+  extraSchema={extraSchema}
+>
+  <!-- 1. Top Hero Banner -->
+  <section class="home-slider-hero" aria-label={`${entry.data.title} Hero Banner`}>
+    <img
+      id="site-hero-img"
+      src={heroImage}
+      alt={heroImageAlt}
+      width="1376"
+      height="768"
+      loading="eager"
+      referrerpolicy="no-referrer"
+    />
+  </section>
+
+  <!-- 2. First Google Reviews Section (Yellow) -->
+  <div id="reviews">
+    <GoogleReviews variant="top" />
+  </div>
+
+  <!-- 3. Royal Blue Page Title Ribbon -->
+  <div class="blue-title-ribbon">
+    <div class="container">
+      <h1>{entry.data.title}</h1>
+    </div>
+  </div>
+
+  <!-- 4. Two-Column Intro Content & Photo -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="two-col-layout">
+        <div class="two-col-copy">
+          <h2>Excellence In Plumbing Maintenance,<br />Repair, and Replacement</h2>
+          <p>
+            <strong>RS Andrews Plumbing</strong> has earned Atlanta's trust since 1968. As licensed Georgia Master Plumbers (#MP210186), we keep families like yours protected from water damage, drain backups, and plumbing failures. Let us earn your trust starting today. Call RS Andrews at {phone} for fast service in every community in the metro Atlanta GA area{isLocation ? ` including ${entry.data.city}` : ''}.
+          </p>
+          <div class="location-specific-body">
+            <Content />
+          </div>
+          <div style="margin-top: 20px;">
+            <a href={phoneHref} class="btn-phone-green" style="font-size: 1.15rem; padding: 10px 24px;">
+              📞 Call {phone} Now
+            </a>
+          </div>
+        </div>
+
+        <div class="framed-photo-box">
+          <figure>
+            <img
+              src={displayImage}
+              alt={displayImageAlt}
+              width="480"
+              height="360"
+              loading="lazy"
+            />
+            <figcaption>{displayCaption}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Boxed FAQ Accordion Section -->
+  <div id="faq">
+    <FAQ />
+  </div>
+
+  <!-- 6. Wide Truck Panorama Banner -->
+  <section class="truck-banner-section" aria-label="RS Andrews 24/7 Mobile Service">
+    <div class="container" style="text-align: center;">
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2F2ff7bc15-0621-49ea-af90-ac3d9f0ecf07_residential-plumbing-brands-fixtures-appliances.webp?alt=media&token=1b49af46-4753-4448-be7c-91d95e92992b"
+        alt="RS Andrews Plumbing Brands, Fixtures and Appliances Servicing Metro Atlanta 365 Days a Year"
+        width="1280"
+        height="714"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        onerror="this.onerror=null;this.src='/images/residential-plumbing-brands-fixtures-appliances.webp';"
+      />
+    </div>
+  </section>
+
+  <!-- 7. Second Two-Column Content & Photo -->
+  <section class="section" style="padding: 20px 0 40px;">
+    <div class="container">
+      <div class="two-col-layout">
+        <div class="two-col-copy">
+          <p>
+            Allow us to be your trusted partner in keeping your family and business water and drainage systems safe and sound. We are a locally owned and operated plumbing and drain cleaning company holding Georgia Master Plumber License #MP210186. <strong>R.S. Andrews Plumbing</strong> services the entire Metro Atlanta region.
+          </p>
+          <p>
+            Our team strives to provide the highest levels of customer satisfaction, perform quality workmanship using commercial-grade parts, and employ well-trained, background-checked plumbers. If you need water heater replacement, drain unclogging, or pipe repairs, call us today at {phone}.
+          </p>
+        </div>
+        <div class="framed-photo-box">
+          <figure>
+            <img
+              src="/images/heatingand-air-conditioning.jpg"
+              alt="Atlanta Plumbing & Drain Cleaning"
+              width="480"
+              height="360"
+              loading="lazy"
+            />
+            <figcaption>Atlanta Plumbing & Drain Cleaning</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Second Google Reviews Section (Yellow) -->
+  <GoogleReviews variant="bottom" />
+
+  <!-- 9. Stationed Techs 24/7 Section -->
+  <section class="stationed-techs-section">
+    <div class="container">
+      <h2>Call R.S. Andrews Day or Night. Weekends Too. We've Got Plumbers Stationed Throughout Metro Atlanta 24/7 for Fast Local Service.</h2>
+      
+      <div class="stationed-cards-grid">
+        <div class="stationed-card">
+          <ul>
+            <li>Tankless Water Heaters</li>
+            <li>Standard Gas & Electric Tanks</li>
+            <li>Drain Cleaning & Hydro Jetting</li>
+            <li>Sewer Line Camera Inspection</li>
+          </ul>
+        </div>
+        <div class="stationed-card">
+          <ul>
+            <li>Burst Pipe Emergency Repairs</li>
+            <li>Slab Leak Detection & Fixes</li>
+            <li>Whole-Home PEX / Copper Repiping</li>
+            <li>Clogged Main Lines & Toilets</li>
+          </ul>
+        </div>
+        <div class="stationed-card">
+          <ul>
+            <li>Faucets, Sinks & Garbage Disposals</li>
+            <li>Sump Pumps & Sewage Ejectors</li>
+            <li>Gas Line Installation & Leak Repair</li>
+            <li>Water Filtration & Pressure Regulators</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Deep Blue Metro Atlanta Service Area Box -->
+  <section class="blue-service-box-section">
+    <div class="container">
+      <div class="blue-service-box">
+        <h2>RS Andrews Plumbing, Drain Cleaning, and Water Heater Service Area</h2>
+        
+        <div class="blue-service-cities-grid">
+          <div class="city-col">
+            {col1Cities.map(city => (
+              <a href={getCityHref(city)} style={city.toLowerCase() === entry.data.city?.toLowerCase() ? "color: #ffe87a; font-weight: 800; text-decoration: underline;" : undefined}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col2Cities.map(city => (
+              <a href={getCityHref(city)} style={city.toLowerCase() === entry.data.city?.toLowerCase() ? "color: #ffe87a; font-weight: 800; text-decoration: underline;" : undefined}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col3Cities.map(city => (
+              <a href={getCityHref(city)} style={city.toLowerCase() === entry.data.city?.toLowerCase() ? "color: #ffe87a; font-weight: 800; text-decoration: underline;" : undefined}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col4Cities.map(city => (
+              <a href={getCityHref(city)} style={city.toLowerCase() === entry.data.city?.toLowerCase() ? "color: #ffe87a; font-weight: 800; text-decoration: underline;" : undefined}>{city}</a>
+            ))}
+          </div>
+        </div>
+
+        <div class="blue-service-bottom-bar">
+          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call for Special Financing Offers.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Brands Serviced & Financing Section -->
+  <section class="brands-financing-section">
+    <div class="container">
+      <div class="section-heading" style="text-align: center; margin-bottom: 30px;">
+        <h2 style="font-size: clamp(1.35rem, 2.5vw, 1.85rem); color: #123954; font-weight: 800;">
+          Plumbing & Water Heater Brands Serviced: Bradford White, Rheem, A.O. Smith, Rinnai, Navien, Kohler, Moen, Delta, American Standard, and more.
+        </h2>
+      </div>
+
+      <div class="brands-grid-layout">
+        <div class="brands-media-box">
+          <figure>
+            <img
+              src="/images/ac-brands.jpg"
+              alt="Major Water Heater and Plumbing Brands Serviced by RS Andrews"
+              width="500"
+              height="400"
+              loading="lazy"
+            />
+            <figcaption>Major Water Heater & Plumbing Brands</figcaption>
+          </figure>
+        </div>
+
+        <div class="brands-copy-box">
+          <h3>Water Heater Installation, Replacement and Financing for Metro Atlanta</h3>
+          <p>
+            If you find that you need to replace your water heater or repair underground pipes at your home or office in <strong>Metro Atlanta</strong>, call the experts at <strong>R.S. Andrews Plumbing</strong>. Get a free second opinion.
+          </p>
+          <p>
+            If together, we determine you need a new water heater or repiping, <strong>R.S. Andrews</strong> will provide you with a transparent, competitive quote detailed in every way. We offer great financing too. Call {phone} now.
+          </p>
+
+          <h4>Call For Special Seasonal Pricing on Tankless Systems</h4>
+          <p>
+            Upgrade to a modern tankless water heater for continuous hot water on demand and lower monthly gas bills.
+          </p>
+
+          <h4>100% Financing Available At Low Interest Rates</h4>
+          <p>
+            Our plumbing team is licensed, bonded, and insured. When unexpected plumbing emergencies arise, we have financing plans with flexible monthly rates. Call the office now at {phone}.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. SEO Content Articles -->
+  <section class="seo-articles-section">
+    <div class="container">
+      <div class="seo-article-block">
+        <h3>Water Quality & Whole-Home Filtration in Metro Atlanta</h3>
+        <p>
+          Water quality inside your home directly impacts your family's health and the longevity of your plumbing appliances. Hard water and municipal chemicals create mineral scale that coats water heaters and corrodes faucets. RS Andrews installs filtration solutions that protect your pipes and appliances.
+        </p>
+      </div>
+
+      <div class="seo-article-block">
+        <h3>Sewer Line Inspections & Hydro Jetting</h3>
+        <p>
+          In the Metro Atlanta area, invasive tree roots and shifting soil frequently damage underground sewer lines. R.S. Andrews Plumbing utilizes fiber-optic camera diagnostics and hydro jetting to clear blockages and restore full sewer flow without unnecessary landscape excavation.
+        </p>
+      </div>
+
+      <div class="seo-article-block">
+        <h3>Low-Cost Preventative Plumbing Safety Inspections</h3>
+        <p>
+          High municipal water pressure can strain household valves and cause sudden pipe bursts. Schedule an annual plumbing safety tune-up with RS Andrews to inspect pressure valves, test water heaters, and check for hidden leaks before major damage occurs.
+        </p>
+      </div>
+
+      <!-- 13. Big Red Estimate Callout -->
+      <div class="big-red-callout">
+        <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
+        <a class="big-red-phone" href={phoneHref}>{phone}</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .location-specific-body {
+    margin-top: 16px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #2f4657;
+  }
+  .location-specific-body h2 {
+    font-size: 1.35rem;
+    color: #123954;
+    margin: 20px 0 8px;
+    font-weight: 800;
+  }
+</style>

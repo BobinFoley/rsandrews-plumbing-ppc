@@ -1,0 +1,44 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { phone, phoneHref } from '../data/site';
+---
+
+<SiteLayout
+  title="Page Not Found"
+  description="The page you are looking for does not exist. Call RS Andrews at 404-806-9284 for 24/7 plumbing, drain cleaning, and water heater services across Metro Atlanta."
+  path="/404/"
+>
+  <div class="blue-title-ribbon">
+    <div class="container">
+      <h1>Page Not Found (404)</h1>
+    </div>
+  </div>
+
+  <section class="section" style="padding: 30px 0 60px; text-align: center;">
+    <div class="container" style="max-width: 720px; margin: 0 auto;">
+      <h2 style="font-size: 2rem; color: #143750; font-weight: 800; margin-bottom: 14px;">
+        We Can't Find The Page You're Looking For
+      </h2>
+      <p style="font-size: 1.1rem; line-height: 1.6; color: #385060; margin-bottom: 28px;">
+        The link may have moved or been updated. If you are experiencing a plumbing emergency, burst pipe, backed up drain, or leaking water heater, our licensed Master Plumbers are on call 24 hours a day, 7 days a week.
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 36px;">
+        <a href={phoneHref} class="btn-phone-green" style="font-size: 1.15rem; padding: 12px 26px;">
+          📞 Call {phone} Now
+        </a>
+        <a href="/" class="btn-check-reviews" style="font-size: 1.05rem; padding: 12px 22px;">
+          🏠 Return to Homepage
+        </a>
+        <a href="/sitemap/" style="display: inline-flex; align-items: center; padding: 12px 22px; background: #005fa8; color: #fff; text-decoration: none; border-radius: 4px; font-weight: 800;">
+          🗺️ Browse Service Areas
+        </a>
+      </div>
+
+      <div class="big-red-callout" style="margin-top: 30px;">
+        <h3>24/7 Emergency Plumbing & Drain Cleaning in Metro Atlanta</h3>
+        <a class="big-red-phone" href={phoneHref}>{phone}</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

@@ -1,0 +1,9 @@
+{
+  "name": "PPC Site: RSAndrews-Plumbing-astro",
+  "description": "Imported from GitHub: BobinFoley/rsandrews-astro",
+  "prompt": "RS Andrews Heating \u0026 Air Astro website",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

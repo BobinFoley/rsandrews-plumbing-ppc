@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rsandrews.247hvac.repair/sitemap.xml
+Sitemap: https://rsandrews.247hvac.repair/sitemap-index.xml

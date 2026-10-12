@@ -1,0 +1,379 @@
+---
+import { getCollection, render } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import GoogleReviews from '../../components/GoogleReviews.astro';
+import { phone, phoneHref, services } from '../../data/site';
+import { getPlacementsForPage } from '../../data/placements';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(entry => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const allPosts = await getCollection('blog');
+const otherPosts = allPosts.filter(p => p.id !== entry.id).slice(0, 3);
+
+const currentPath = `/blog/${entry.id}/`;
+const placements = getPlacementsForPage(currentPath);
+
+// Check if admin specified an override image for this blog post
+const heroPlacement = placements.find(p => p.zone === 'hero' || p.zone === 'top-content');
+const featuredImage = heroPlacement?.image || entry.data.image;
+const featuredImageAlt = heroPlacement?.imageAlt || entry.data.imageAlt || entry.data.title;
+
+const inContentPlacements = placements.filter(p => p.zone === 'in-content');
+const bannerPlacements = placements.filter(p => p.zone === 'callout-banner');
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
+
+const canonicalUrl = `https://rsandrews.247hvac.repair${currentPath}`;
+const postKeywords = entry.data.tags && entry.data.tags.length > 0
+  ? entry.data.tags.join(', ')
+  : 'Plumbing advice Atlanta, water heater repair guide, drain cleaning tips, RS Andrews';
+
+const postExtraSchema = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${canonicalUrl}#article`,
+    headline: entry.data.title,
+    description: entry.data.description,
+    datePublished: entry.data.pubDate.toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: entry.data.author || 'RS Andrews Team',
+      url: 'https://rsandrews.247hvac.repair'
+    },
+    publisher: {
+      '@type': 'Plumber',
+      name: 'RS Andrews Plumbing',
+      url: 'https://rsandrews.247hvac.repair',
+      telephone: phone
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl
+    }
+  },
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://rsandrews.247hvac.repair/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Plumbing Blog',
+        item: 'https://rsandrews.247hvac.repair/blog/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: entry.data.title,
+        item: canonicalUrl
+      }
+    ]
+  }
+];
+---
+
+<SiteLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  path={currentPath}
+  image={featuredImage}
+  imageAlt={featuredImageAlt}
+  keywords={postKeywords}
+  extraSchema={postExtraSchema}
+>
+  <!-- Royal Blue Title Ribbon -->
+  <div class="blue-title-ribbon">
+    <div class="container">
+      <div class="breadcrumbs" style="color: #c9e4f8; margin-bottom: 8px; font-size: 0.88rem;">
+        <a href="/" style="color: #fff; text-decoration: none;">Home</a> <span style="opacity: 0.7;">/</span> <a href="/blog/" style="color: #fff; text-decoration: none;">Blog</a> <span style="opacity: 0.7;">/</span> <span style="color: #ffe87a;">{entry.data.category}</span>
+      </div>
+      <h1>{entry.data.title}</h1>
+      <div class="article-meta" style="color: #e2f0fb; font-size: 0.9rem; margin-top: 8px;">
+        <span>By <strong>{entry.data.author}</strong></span>
+        <span class="meta-dot">·</span>
+        <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container page-grid">
+      <article class="content blog-article">
+        {featuredImage && (
+          <figure class="featured-media">
+            <img src={featuredImage} alt={featuredImageAlt} loading="eager" />
+            {heroPlacement?.caption ? (
+              <figcaption>{heroPlacement.caption}</figcaption>
+            ) : entry.data.imageAlt ? (
+              <figcaption>{entry.data.imageAlt}</figcaption>
+            ) : null}
+          </figure>
+        )}
+
+        <div class="article-body">
+          <Content />
+        </div>
+
+        {inContentPlacements.length > 0 && (
+          <div class="placed-media-grid">
+            {inContentPlacements.map(placement => (
+              <figure class="placed-media-item">
+                <img src={placement.image} alt={placement.imageAlt} loading="lazy" />
+                {placement.caption && <figcaption>{placement.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        )}
+
+        {bannerPlacements.length > 0 && (
+          <div class="placed-banner-slot">
+            {bannerPlacements.map(banner => (
+              <div class="custom-placement-banner">
+                <img src={banner.image} alt={banner.imageAlt} />
+                {banner.caption && <p class="banner-caption">{banner.caption}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div class="post-tags-container">
+          <span class="tags-label">Tags:</span>
+          {entry.data.tags.map(tag => (
+            <span class="tag-item">#{tag}</span>
+          ))}
+        </div>
+
+        <div class="article-cta-box">
+          <div class="cta-box-text">
+            <h3>Need a Licensed Plumber in Metro Atlanta?</h3>
+            <p>RS Andrews has provided 5-star plumbing and drain service since 1968. GA Master Plumber #MP210186. Call anytime for emergency dispatch or a free water heater estimate.</p>
+          </div>
+          <a class="button" href={phoneHref}>Call {phone}</a>
+        </div>
+      </article>
+
+      <aside class="sidebar">
+        <h2>Talk with RS Andrews Plumbing</h2>
+        <p>Experiencing drain clogs, leaks, or water heater issues? Call our team 24/7 for prompt troubleshooting and emergency dispatch.</p>
+        <a class="button" href={phoneHref}>Call {phone}</a>
+
+        <h2 style="margin-top:32px">Plumbing Services</h2>
+        {services.map(item => (
+          <a href={item.href}>{item.title}</a>
+        ))}
+
+        {otherPosts.length > 0 && (
+          <div class="sidebar-articles">
+            <h2 style="margin-top:32px">More Plumbing Guides</h2>
+            {otherPosts.map(p => (
+              <div class="sidebar-article-item">
+                <a href={`/blog/${p.id}/`}>{p.data.title}</a>
+                <time>{formatDate(p.data.pubDate)}</time>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <a href="/blog/" style="margin-top:16px;">View all articles →</a>
+      </aside>
+    </div>
+  </section>
+
+  <div id="reviews">
+    <GoogleReviews variant="bottom" />
+  </div>
+
+  <div class="container" style="margin: 35px auto 10px;">
+    <div class="big-red-callout">
+      <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
+      <a class="big-red-phone" href={phoneHref}>{phone}</a>
+    </div>
+  </div>
+</SiteLayout>
+
+<style>
+  .breadcrumbs {
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+    color: #e4edf2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .breadcrumbs a {
+    color: #f4bb67;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: #e4edf2;
+    font-size: 0.95rem;
+    margin-top: 14px;
+  }
+  .meta-dot {
+    color: #8da4b4;
+  }
+  .category-chip {
+    background: #d75b24;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .featured-media {
+    margin: 0 0 32px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(14, 48, 64, 0.12);
+  }
+  .featured-media img {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+  }
+  .featured-media figcaption {
+    font-size: 0.88rem;
+    color: #637c8e;
+    padding: 10px 14px;
+    background: #f4f8fa;
+    border-left: 3px solid #d75b24;
+  }
+  .placed-media-grid {
+    margin: 30px 0;
+    display: grid;
+    gap: 20px;
+  }
+  .placed-media-item {
+    margin: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .placed-media-item img {
+    width: 100%;
+    display: block;
+  }
+  .placed-media-item figcaption {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    background: #f7fafc;
+    color: #556e80;
+  }
+  .placed-banner-slot {
+    margin: 30px 0;
+  }
+  .custom-placement-banner {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .custom-placement-banner img {
+    width: 100%;
+    display: block;
+  }
+  .banner-caption {
+    font-size: 0.85rem;
+    color: #627988;
+    margin-top: 6px;
+  }
+  .post-tags-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 36px 0 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e2ecf1;
+  }
+  .tags-label {
+    font-weight: 700;
+    color: #173f5d;
+    font-size: 0.9rem;
+  }
+  .tag-item {
+    background: #eef4f8;
+    color: #1a4a6e;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .article-cta-box {
+    background: linear-gradient(135deg, #102c43 0%, #174a70 100%);
+    color: #fff;
+    padding: 28px;
+    border-radius: 6px;
+    margin: 36px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .cta-box-text h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 1.35rem;
+  }
+  .cta-box-text p {
+    margin: 0;
+    color: #dceaf1;
+    font-size: 0.95rem;
+    max-width: 50ch;
+  }
+  .sidebar-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .sidebar-article-item a {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin: 0 0 4px;
+    color: #174461;
+  }
+  .sidebar-article-item a:hover {
+    color: #d75b24;
+  }
+  .sidebar-article-item time {
+    font-size: 0.8rem;
+    color: #728a99;
+  }
+  @media (max-width: 600px) {
+    .article-cta-box {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,300 @@
+---
+import { business, phone, phoneHref, services, siteUrl } from '../data/site';
+import media from '../data/media.json';
+import FloatingReviewsBubble from '../components/FloatingReviewsBubble.astro';
+import MobileStickyCallBar from '../components/MobileStickyCallBar.astro';
+import '../styles/global.css';
+import '../styles/media.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  imageAlt?: string;
+  keywords?: string;
+  robots?: string;
+  geo?: {
+    region?: string;
+    placename?: string;
+    position?: string;
+    icbm?: string;
+  };
+  extraSchema?: any[];
+}
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  image = media.socialImage,
+  imageAlt = media.homepageImageAlt,
+  keywords,
+  robots,
+  geo,
+  extraSchema = [],
+} = Astro.props;
+
+const normalizeBase = (u?: string): string => {
+  if (!u) return siteUrl;
+  const trimmed = u.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+};
+
+const safeUrl = (target?: string, base?: string): string => {
+  const validBase = normalizeBase(base || siteUrl);
+  try {
+    return new URL(target || '', validBase).toString();
+  } catch {
+    const cleanBase = validBase.replace(/\/+$/, '');
+    const cleanTarget = (target || '').replace(/^\/+/, '');
+    return `${cleanBase}/${cleanTarget}`;
+  }
+};
+
+const normalizedSiteUrl = normalizeBase(siteUrl);
+// Netlify's URL points at the current deployed site, including before the final domain moves.
+const socialBase = normalizeBase(process.env.URL || siteUrl);
+
+const canonical = safeUrl(path, normalizedSiteUrl);
+const brandSuffix = 'RS Andrews Plumbing';
+const cleanTitle = title.replace(/\s*\|\s*RS Andrews(?:\s+(?:Heating\s*&\s*Air|Plumbing))?$/i, '').trim();
+const fullTitle = `${cleanTitle} | ${brandSuffix}`;
+const socialUrl = safeUrl(path, socialBase);
+const socialImageUrl = safeUrl(image, socialBase);
+const businessImageUrl = safeUrl(image, normalizedSiteUrl);
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Plumber',
+      '@id': `${normalizedSiteUrl}/#business`,
+      name: business.name,
+      legalName: business.legalName,
+      url: normalizedSiteUrl,
+      telephone: phone,
+      image: businessImageUrl,
+      priceRange: '$$',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3617 Clearview Parkway',
+        addressLocality: 'Atlanta',
+        addressRegion: 'GA',
+        postalCode: '30340',
+        addressCountry: 'US'
+      },
+      hasCredential: [
+        {
+          '@type': 'EducationalOccupationalCredential',
+          credentialCategory: 'State License',
+          name: 'Georgia Master Plumber License #MP210186'
+        }
+      ],
+      areaServed: geo?.placename
+        ? [
+            { '@type': 'Place', name: 'Metro Atlanta' },
+            { '@type': 'City', name: geo.placename }
+          ]
+        : { '@type': 'Place', name: 'Metro Atlanta' }
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { '@id': `${normalizedSiteUrl}/#website` },
+      about: { '@id': `${normalizedSiteUrl}/#business` }
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${normalizedSiteUrl}/#website`,
+      url: normalizedSiteUrl,
+      name: business.name
+    },
+    ...extraSchema,
+  ],
+};
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#102c43" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content={robots || "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"} />
+  {keywords && <meta name="keywords" content={keywords} />}
+  {geo?.region && <meta name="geo.region" content={geo.region} />}
+  {geo?.placename && <meta name="geo.placename" content={geo.placename} />}
+  {geo?.position && <meta name="geo.position" content={geo.position} />}
+  {geo?.icbm && <meta name="ICBM" content={geo.icbm} />}
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={business.name} />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={socialUrl} />
+  <meta property="og:image" content={socialImageUrl} />
+  <meta property="og:image:alt" content={imageAlt} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={socialImageUrl} />
+  <meta name="twitter:image:alt" content={imageAlt} />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EL7CF8XNCQ"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EL7CF8XNCQ');
+  </script>
+</head>
+<body style={{ '--hero-image': `url("${media.heroImage}")` }}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-main-row">
+      <a class="header-brand" href="/" aria-label="RS Andrews Plumbing home">
+        <img src="/images/hvac-plumbing-logo-325.jpg" alt="RS Andrews Plumbing, Heating and Air Conditioning - Story After Story, We Deliver Smiles!" width="325" height="94" />
+      </a>
+      <div class="header-right-actions">
+        <a href="#reviews" class="btn-check-reviews">
+          <span class="btn-star">★</span> Check Reviews
+        </a>
+        <div class="payment-cards" aria-label="Accepted payment methods">
+          <span class="pay-badge visa">VISA</span>
+          <span class="pay-badge mc">MC</span>
+          <span class="pay-badge disc">DISC</span>
+          <span class="pay-badge amex">AMEX</span>
+        </div>
+        <a class="btn-phone-green" href={phoneHref} aria-label={`Call RS Andrews at ${phone}`}>
+          <svg class="phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>{phone}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Red Action Bar -->
+  <nav class="red-action-bar" aria-label="Quick Emergency and Service Actions">
+    <div class="container action-bar-grid">
+      <a href="/24-7-emergency-plumbing/" class="action-item">
+        <span class="action-icon">🚨</span>
+        <div class="action-text">
+          <strong class="action-title">24/7</strong>
+          <span class="action-sub">Emergency Plumber</span>
+        </div>
+      </a>
+      <a href="/water-heater-repair/" class="action-item">
+        <span class="action-icon">🔥</span>
+        <div class="action-text">
+          <strong class="action-title">Water Heaters</strong>
+          <span class="action-sub">Tank & Tankless Systems</span>
+        </div>
+      </a>
+      <a href="/drain-cleaning/" class="action-item">
+        <span class="action-icon">🚿</span>
+        <div class="action-text">
+          <strong class="action-title">Drain Cleaning</strong>
+          <span class="action-sub">Snaking & Hydro Jetting</span>
+        </div>
+      </a>
+      <a href="/plumbing-financing/" class="action-item">
+        <span class="action-icon">💳</span>
+        <div class="action-text">
+          <strong class="action-title">Plumbing Financing</strong>
+          <span class="action-sub">Low Rates & Payments</span>
+        </div>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Secondary Menu Bar -->
+  <div class="sub-nav-bar">
+    <div class="container sub-nav-inner">
+      <nav aria-label="Main navigation" class="secondary-nav">
+        <a href="/">Home</a>
+        <a href="/plumbing-services/">Plumbing Services</a>
+        <a href="/water-heater-repair/">Water Heaters</a>
+        <a href="/drain-cleaning/">Drain Cleaning</a>
+        <a href="/sitemap/">Service Areas</a>
+        <a href="/blog/">Plumbing Blog</a>
+      </nav>
+      <span class="sub-nav-tagline">Metro Atlanta Master Plumber Since 1968 • GA Lic #MP210186</span>
+    </div>
+  </div>
+
+  <main id="main"><slot /></main>
+
+  <footer class="footer-original">
+    <div class="container footer-four-cols">
+      <div class="footer-col">
+        <h3>Get In Touch!</h3>
+        <p class="contact-line">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+          <a href={phoneHref} class="footer-phone-link">{phone}</a>
+        </p>
+        <p class="contact-line">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>3617 Clearview Parkway<br />Atlanta, GA 30340</span>
+        </p>
+        <p class="contact-line">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <a href="mailto:office@rsandrews.com">Email Us</a>
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Plumbing Resources</h3>
+        <ul class="footer-links-list">
+          <li><a href="/#faq">Plumbing FAQ</a></li>
+          <li><a href="/plumbing-services/">All Plumbing Services</a></li>
+          <li><a href="/24-7-emergency-plumbing/">24/7 Emergency Plumber</a></li>
+          <li><a href="/water-heater-repair/">Water Heater Repair</a></li>
+          <li><a href="/drain-cleaning/">Drain Cleaning & Jetting</a></li>
+          <li><a href="/plumbing-financing/">Plumbing Financing</a></li>
+          <li><a href="/blog/">Plumbing Tips & Guides</a></li>
+          <li><a href="/sitemap/">All Service Areas</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Hours</h3>
+        <p>Office Hours: 8am - 5pm<br />Service Hours: 8am - 6pm<br /><strong>24-Hour Emergency Plumbing Service</strong></p>
+        <div class="social-icons" style="margin-top: 14px;">
+          <a href="https://facebook.com/rsandrews" target="_blank" rel="noopener noreferrer" aria-label="RS Andrews Facebook">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>Licensed Master Plumber</h3>
+        <p><strong>GA Master Plumber #MP210186</strong><br />GA Conditioned Air #CN209549<br />Fully Licensed, Bonded & Insured</p>
+        <div class="social-icons" style="margin-top: 14px;">
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="RS Andrews YouTube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div class="container footer-bottom-inner">
+        <span>Atlanta Plumbing © {new Date().getFullYear()} RS Andrews Plumbing. All Rights Reserved. | <a href="/sitemap/">Sitemap</a> | Marketing and Design by <a href="https://micromanagedmedia.com/" target="_blank" rel="noopener noreferrer">MicroManaged Media, Inc.</a></span>
+      </div>
+    </div>
+  </footer>
+  <FloatingReviewsBubble />
+  <MobileStickyCallBar />
+</body>
+</html>

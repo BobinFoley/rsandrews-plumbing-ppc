@@ -1,0 +1,109 @@
+media:
+  input: public/images
+  output: /images
+  extensions: [jpg, jpeg, png, webp]
+  rename: safe
+
+content:
+  - name: site_photos
+    label: Site photographs
+    type: file
+    path: src/data/media.json
+    format: json
+    operations:
+      create: false
+      delete: false
+    fields:
+      - name: heroImage
+        label: Banner photo (every page)
+        type: image
+        required: true
+      - name: homepageImage
+        label: Homepage photo
+        type: image
+        required: true
+      - name: homepageImageAlt
+        label: Homepage photo description
+        type: string
+        required: true
+        description: Describe the photo for screen readers.
+      - name: logoImage
+        label: Header and footer logo
+        type: image
+        required: true
+      - name: socialImage
+        label: Social sharing image
+        type: image
+        required: true
+
+  - name: locations
+    label: City pages
+    type: collection
+    path: src/content/locations
+    format: yaml-frontmatter
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      primary: title
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: city
+        label: City
+        type: string
+        required: true
+      - name: type
+        label: Page category
+        type: string
+        readonly: true
+      - name: pageImage
+        label: Optional page photo
+        type: image
+      - name: pageImageAlt
+        label: Page photo description
+        type: string
+      - name: body
+        label: Page text
+        type: rich-text
+
+  - name: services
+    label: Service pages
+    type: collection
+    path: src/content/services
+    format: yaml-frontmatter
+    operations:
+      create: false
+      rename: false
+      delete: false
+    view:
+      primary: title
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+      - name: description
+        label: Search description
+        type: text
+        required: true
+      - name: type
+        label: Page category
+        type: string
+        readonly: true
+      - name: pageImage
+        label: Optional page photo
+        type: image
+      - name: pageImageAlt
+        label: Page photo description
+        type: string
+      - name: body
+        label: Page text
+        type: rich-text

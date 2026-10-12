@@ -1,0 +1,123 @@
+{
+  "placements": [
+    {
+      "id": "placement-global-site-hero",
+      "page": "*",
+      "zone": "hero",
+      "image": "/images/plumber-rsandrews.webp",
+      "imageAlt": "RS Andrews 24/7 Master Plumbers & Emergency Plumbing Services Metro Atlanta",
+      "caption": "RS Andrews 24/7 Emergency Plumbing Across Metro Atlanta",
+      "notes": "Site-wide default hero banner across all pages",
+      "status": "active",
+      "updatedAt": "2026-10-10"
+    },
+    {
+      "id": "placement-home-hero",
+      "page": "/",
+      "zone": "hero",
+      "image": "/images/plumber-rsandrews.webp",
+      "imageAlt": "RS Andrews 24/7 Emergency Plumbing Services in Metro Atlanta",
+      "caption": "RS Andrews 24/7 Emergency Plumbing Across Metro Atlanta",
+      "notes": "Main hero banner on homepage",
+      "status": "active",
+      "updatedAt": "2026-10-10"
+    },
+    {
+      "id": "placement-home-intro",
+      "page": "/",
+      "zone": "top-content",
+      "image": "https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2F732d8de4-7704-4bae-9a6b-b95734477aae_plumber-soldering-a-small-copper-joint.webp?alt=media&token=e94ab6d2-1d10-445b-8b01-960eddd65234",
+      "imageAlt": "RS Andrews Master Plumber soldering copper pipe joint in Metro Atlanta",
+      "caption": "Licensed Master Plumbers servicing Metro Atlanta since 1968",
+      "notes": "Introductory feature image on homepage",
+      "status": "active",
+      "updatedAt": "2026-10-10"
+    },
+    {
+      "id": "placement-emergency-hero",
+      "page": "/24-7-emergency-plumbing/",
+      "zone": "hero",
+      "image": "/images/hero.jpg",
+      "imageAlt": "RS Andrews 24/7 Emergency Plumber - Rapid Metro Atlanta Dispatch",
+      "caption": "24/7 Emergency Plumber in Metro Atlanta",
+      "notes": "Main hero banner on emergency plumbing page",
+      "status": "active",
+      "updatedAt": "2026-10-09"
+    },
+    {
+      "id": "placement-drain-hero",
+      "page": "/drain-cleaning/",
+      "zone": "hero",
+      "image": "/images/ac-repair31-1.jpg",
+      "imageAlt": "RS Andrews Professional Drain Cleaning & Hydro Jetting Services in Atlanta",
+      "caption": "Drain Cleaning & Clog Clearing Metro Atlanta",
+      "notes": "Hero banner on drain cleaning page",
+      "status": "active",
+      "updatedAt": "2026-10-09"
+    },
+    {
+      "id": "placement-water-heater-hero",
+      "page": "/water-heater-repair/",
+      "zone": "hero",
+      "image": "/images/furnace-install-lewisville.jpg",
+      "imageAlt": "RS Andrews Water Heater Repair & Tankless Replacement Atlanta",
+      "caption": "Water Heater Repair & Replacement Atlanta",
+      "notes": "Hero banner on water heater repair page",
+      "status": "active",
+      "updatedAt": "2026-10-09"
+    },
+    {
+      "id": "placement-plumbing-services-hero",
+      "page": "/plumbing-services/",
+      "zone": "hero",
+      "image": "/images/plumber-rsandrews.webp",
+      "imageAlt": "Complete Residential Plumbing Services Atlanta - RS Andrews",
+      "caption": "Metro Atlanta Complete Plumbing Services",
+      "notes": "Hero banner on plumbing services page",
+      "status": "active",
+      "updatedAt": "2026-10-10"
+    },
+    {
+      "id": "placement-plumbing-services",
+      "page": "/plumbing-services/",
+      "zone": "top-content",
+      "image": "/images/heatingand-air-conditioning.jpg",
+      "imageAlt": "RS Andrews licensed plumbing technician",
+      "caption": "Metro Atlanta plumbing and drain specialists",
+      "notes": "Top feature for main plumbing services page",
+      "status": "active",
+      "updatedAt": "2026-10-06"
+    },
+    {
+      "id": "placement-emergency-sidebar",
+      "page": "/24-7-emergency-plumbing/",
+      "zone": "sidebar-badge",
+      "image": "/images/rs-truck.png",
+      "imageAlt": "RS Andrews 24/7 emergency plumbing service truck",
+      "caption": "Dispatched 24/7 across Metro Atlanta",
+      "notes": "Trust badge on emergency plumbing repair page",
+      "status": "active",
+      "updatedAt": "2026-10-06"
+    }
+  ],
+  "customImages": [
+    {
+      "id": "img-custom-1",
+      "title": "RS Andrews Service Van Fleet",
+      "path": "/images/rs-truck.png",
+      "alt": "RS Andrews emergency service van",
+      "category": "Vehicles",
+      "dimensions": "450x260",
+      "addedAt": "2026-10-06"
+    },
+    {
+      "id": "img-custom-plumber-van",
+      "title": "RS Andrews Plumber & Service Van Fleet",
+      "path": "/images/plumber-rsandrews.webp",
+      "alt": "RS Andrews licensed emergency plumber loading service van in Metro Atlanta",
+      "category": "Vehicles & Team",
+      "dimensions": "1280x471",
+      "addedAt": "2026-10-10"
+    }
+  ]
+}

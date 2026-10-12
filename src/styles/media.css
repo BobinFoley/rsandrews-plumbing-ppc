@@ -1,0 +1,18 @@
+/* The image path is editable in Pages CMS; the gradient keeps headings legible. */
+.hero::before {
+  background-image: linear-gradient(90deg, #0b2d48ee 0%, #0b2d48cf 46%, #0b2d4845 100%), var(--hero-image);
+  background-position: center, center 42%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 900px) {
+  .hero::before {
+    background-image: linear-gradient(90deg, #0b2d48f0, #0b2d4870), var(--hero-image);
+    background-position: center;
+  }
+}
+
+.page-photo { margin: 0 0 28px; }
+.page-photo img { display: block; width: 100%; height: auto; border-radius: 4px; }
+.page-photo figcaption { color: #4b6170; font-size: .9rem; margin-top: 8px; }

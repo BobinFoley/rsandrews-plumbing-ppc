@@ -1,0 +1,203 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import { getCollection } from 'astro:content';
+import { phone, phoneHref } from '../data/site';
+
+const allLocations = await getCollection('locations');
+const cities = allLocations.sort((a,b) => a.data.city!.localeCompare(b.data.city!));
+const services = (await getCollection('services')).sort((a,b) => a.data.title.localeCompare(b.data.title));
+
+const locationMap = new Map(allLocations.map(item => [item.data.city?.toLowerCase(), item.id]));
+
+const col1Cities = ['Acworth', 'Alpharetta', 'Austell', 'Brookhaven', 'Buckhead', 'Buford', 'Chamblee', 'Clarkston', 'Cumming', 'Dacula'];
+const col2Cities = ['Decatur', 'Doraville', 'Druid Hills', 'Duluth', 'Dunwoody', 'East Cobb', 'Flowery Branch', 'Grayson', 'Holly Springs', 'Johns Creek'];
+const col3Cities = ['Kennesaw', 'Lawrenceville', 'Lilburn', 'Mableton', 'Marietta', 'Milton', 'Norcross', 'North Decatur', 'North Druid Hills', 'Peachtree Corners', 'Powder Springs'];
+const col4Cities = ['Roswell', 'Sandy Springs', 'Smyrna', 'Snellville', 'Stone Mountain', 'Sugar Hill', 'Suwanee', 'Tucker', 'Vinings', 'Woodstock'];
+
+function getCityHref(cityName: string) {
+  const slug = locationMap.get(cityName.toLowerCase());
+  return slug ? `/${slug}/` : '/sitemap/';
+}
+
+const sitemapKeywords = "RS Andrews service areas, Metro Atlanta plumbing service locations, plumber cities GA, emergency plumber service areas";
+const sitemapGeo = {
+  region: 'US-GA',
+  placename: 'Atlanta, Georgia',
+  position: '33.7490;-84.3880',
+  icbm: '33.7490, -84.3880'
+};
+const sitemapExtraSchema = [
+  {
+    '@type': 'BreadcrumbList',
+    '@id': 'https://rsandrews.247hvac.repair/sitemap/#breadcrumb',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://rsandrews.247hvac.repair/'
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Service Areas',
+        item: 'https://rsandrews.247hvac.repair/sitemap/'
+      }
+    ]
+  }
+];
+---
+
+<SiteLayout
+  title="Sitemap and Service Areas"
+  description="Browse all RS Andrews plumbing, drain cleaning, water heater, and emergency service pages and Metro Atlanta city directory. Call 404-806-9284 for 24/7 service."
+  path="/sitemap/"
+  keywords={sitemapKeywords}
+  geo={sitemapGeo}
+  extraSchema={sitemapExtraSchema}
+>
+  <!-- Top Hero Banner -->
+  <section class="home-slider-hero" aria-label="RS Andrews Emergency Plumbing Hero">
+    <img
+      src="/images/hero.jpg"
+      alt="RS Andrews 24/7 Emergency Plumbing Services Across Metro Atlanta"
+      width="1376"
+      height="768"
+      loading="eager"
+      referrerpolicy="no-referrer"
+    />
+  </section>
+
+  <!-- Google Reviews -->
+  <div id="reviews">
+    <GoogleReviews variant="top" />
+  </div>
+
+  <!-- Royal Blue Title Ribbon -->
+  <div class="blue-title-ribbon">
+    <div class="container">
+      <h1>Sitemap & Service Areas Directory</h1>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <section class="section" style="padding-top: 10px;">
+    <div class="container">
+      <div class="section-heading" style="text-align: center; margin-bottom: 24px;">
+        <h2 style="font-size: clamp(1.4rem, 2.8vw, 1.95rem); color: #123954; font-weight: 800;">
+          Plumbing, Drain & Emergency Services
+        </h2>
+      </div>
+
+      <div class="service-cards-custom">
+        <a href="/" class="service-card-item">
+          <h3>Home</h3>
+          <p>Main homepage, 5-star customer reviews, water heater brands & seasonal maintenance info.</p>
+        </a>
+        {services.map(page => (
+          <a href={`/${page.id}/`} class="service-card-item">
+            <h3>{page.data.title}</h3>
+            <p>{page.data.description}</p>
+          </a>
+        ))}
+        <a href="/blog/" class="service-card-item">
+          <h3>Plumbing Advice & Blog</h3>
+          <p>Guides, troubleshooting tips, drain cleaning advice, and water heater buyer guides.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Blue Metro Atlanta Service Area Box -->
+  <section class="blue-service-box-section">
+    <div class="container">
+      <div class="blue-service-box">
+        <h2>RS Andrews Plumbing, Drain Cleaning, and Water Heater Service Area</h2>
+        
+        <div class="blue-service-cities-grid">
+          <div class="city-col">
+            {col1Cities.map(city => (
+              <a href={getCityHref(city)}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col2Cities.map(city => (
+              <a href={getCityHref(city)}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col3Cities.map(city => (
+              <a href={getCityHref(city)}>{city}</a>
+            ))}
+          </div>
+          <div class="city-col">
+            {col4Cities.map(city => (
+              <a href={getCityHref(city)}>{city}</a>
+            ))}
+          </div>
+        </div>
+
+        <div class="blue-service-bottom-bar">
+          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call for Special Financing Offers.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Big Red Estimate Callout -->
+  <div class="container">
+    <div class="big-red-callout" style="margin-bottom: 45px;">
+      <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
+      <a class="big-red-phone" href={phoneHref}>{phone}</a>
+    </div>
+  </div>
+</SiteLayout>
+
+<style>
+  .service-cards-custom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .service-card-item {
+    background: #ffffff;
+    border: 1px solid #d4e3ed;
+    border-top: 4px solid #005fa8;
+    border-radius: 4px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s, border-top-color 0.2s;
+  }
+  .service-card-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    border-top-color: #d32f2f;
+  }
+  .service-card-item h3 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #0b559b;
+  }
+  .service-card-item p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #435b6c;
+    line-height: 1.45;
+  }
+  @media (max-width: 900px) {
+    .service-cards-custom {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    .service-cards-custom {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

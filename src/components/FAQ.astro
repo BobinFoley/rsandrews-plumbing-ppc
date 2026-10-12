@@ -1,0 +1,135 @@
+---
+import { phone, phoneHref } from '../data/site';
+
+const faqs = [
+  {
+    q: "Why is RS Andrews Metro Atlanta's trusted plumbing contractor?",
+    a: "RS Andrews has served Metro Atlanta homeowners and businesses since 1968. Our licensed Master Plumbers (GA License #MP210186) provide upfront flat-rate pricing, 100% satisfaction guarantees, and emergency response 24 hours a day, 365 days a year. Our service trucks are stocked with commercial-grade parts to resolve most plumbing breakdowns on the spot."
+  },
+  {
+    q: "What should I do immediately during a plumbing emergency in Metro Atlanta?",
+    a: "First, locate and shut off your home's main water shutoff valve (often in the basement, crawlspace, or near your water meter at the curb) to prevent water damage. Turn off power to electric water heaters if they are leaking. Then call RS Andrews immediately at 404-806-9284. Our dispatchers will rush an on-call emergency plumber to your home."
+  },
+  {
+    q: "Should I repair or replace my water heater?",
+    a: "Standard tank water heaters generally last 8 to 12 years, while tankless models last 20+ years. If your water heater is under 8 years old and experiencing a minor heating element or thermostat issue, repair is often cost-effective. If the tank is leaking from the base or showing heavy internal rust, replacement is necessary. We provide clear, written comparisons and upfront estimates."
+  },
+  {
+    q: "What are the common warning signs of a hidden water leak or slab leak?",
+    a: "Signs include unexplained spikes in your water bill, the sound of water running when fixtures are off, warm spots on tile or hardwood floors, damp or bubbling drywall, mold odors, or low water pressure. RS Andrews uses advanced acoustic and thermal leak detection equipment to pinpoint leaks without unnecessary destruction to your walls or slab."
+  },
+  {
+    q: "How does RS Andrews clear stubborn drain clogs and main sewer lines?",
+    a: "We utilize heavy-duty motorized drain snakes and high-pressure hydro jetting to blast away hair, mineral scale, hardened cooking grease, and invasive tree roots. We also perform high-definition in-line sewer camera inspections so you can see inside your pipes and verify the line is completely clear."
+  },
+  {
+    q: "Do you offer upfront pricing and financing for major plumbing repairs?",
+    a: "Yes! We operate with 100% upfront flat-rate pricing. Our technician explains the diagnostic findings and gives you exact pricing before any work starts. For larger projects like water heater replacement, sewer line repair, or whole-house repiping, we offer flexible financing with low monthly payments and competitive interest rates."
+  }
+];
+---
+
+<section class="section faq-section" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="faq-header">
+      <h2 id="faq-title">Frequently Asked Questions About Metro Atlanta Plumbing</h2>
+    </div>
+
+    <div class="faq-accordion-box">
+      {faqs.map(item => (
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span class="faq-question">{item.q}</span>
+            <span class="faq-toggle-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>{item.a}</p>
+            <p style="margin-top: 8px;">
+              <a href={phoneHref} style="color: #0b559b; font-weight: 700;">Need immediate plumbing help? Call RS Andrews at {phone} →</a>
+            </p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 48px 0;
+    background: #fbfcfd;
+  }
+  .faq-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .faq-header h2 {
+    font-size: clamp(1.4rem, 2.6vw, 1.95rem);
+    color: #14354c;
+    font-weight: 800;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .faq-accordion-box {
+    max-width: 940px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    background: #ffffff;
+    border: 1.5px solid #b2d2e9;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .faq-item:hover {
+    border-color: #0b559b;
+  }
+  .faq-item[open] {
+    border-color: #0b559b;
+    box-shadow: 0 4px 14px rgba(11, 85, 155, 0.08);
+  }
+  .faq-summary {
+    list-style: none;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-question {
+    font-weight: 700;
+    font-size: 0.96rem;
+    color: #0b4d7e;
+    line-height: 1.35;
+    padding-right: 16px;
+  }
+  .faq-toggle-icon {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0b559b;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .faq-item[open] .faq-toggle-icon {
+    content: "−";
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    padding: 0 20px 18px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: #384e5e;
+    border-top: 1px dashed #e1ecf2;
+    padding-top: 14px;
+  }
+  .faq-answer p {
+    margin: 0;
+  }
+</style>
