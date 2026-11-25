@@ -3,7 +3,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import FAQ from '../components/FAQ.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import { getCollection } from 'astro:content';
-import { business, phone, phoneHref, siteUrl } from '../data/site';
+import { business, phone, phoneHref, reviewStats, siteUrl, stationedServiceGroups } from '../data/site';
 import { getPlacementsForPage } from '../data/placements';
 
 const homePlacements = getPlacementsForPage('/');
@@ -14,7 +14,6 @@ const homeHeroAlt = homeHeroPlacement?.imageAlt || 'RS Andrews 24/7 Emergency Pl
 const locationCollection = await getCollection('locations');
 const locationMap = new Map(locationCollection.map(item => [item.data.city?.toLowerCase(), item.id]));
 
-// Organized 4 columns matching the reference screenshot
 const col1Cities = ['Acworth', 'Alpharetta', 'Atlanta', 'Austell', 'Brookhaven', 'Buckhead', 'Buford', 'Chamblee', 'Clarkston', 'Cumming', 'Dacula'];
 const col2Cities = ['Decatur', 'Doraville', 'Druid Hills', 'Duluth', 'Dunwoody', 'East Cobb', 'Flowery Branch', 'Grayson', 'Holly Springs', 'Johns Creek'];
 const col3Cities = ['Kennesaw', 'Lawrenceville', 'Lilburn', 'Mableton', 'Marietta', 'Milton', 'Norcross', 'North Decatur', 'North Druid Hills', 'Peachtree Corners', 'Powder Springs'];
@@ -71,7 +70,7 @@ const homeExtraSchema = [
         name: "Why is RS Andrews Metro Atlanta's trusted plumbing contractor?",
         acceptedAnswer: {
           '@type': 'Answer',
-          text: "RS Andrews has served Metro Atlanta homeowners and businesses since 1968. Our licensed Master Plumbers (GA License #MP210186) provide upfront flat-rate pricing, 100% satisfaction guarantees, and emergency response 24 hours a day, 365 days a year. Our service trucks are stocked with commercial-grade parts to resolve most plumbing breakdowns on the spot."
+          text: "RS Andrews has served Metro Atlanta homeowners since 1968. Our licensed Master Plumbers (GA License #MP210186) provide upfront flat-rate pricing, 100% satisfaction guarantees, and emergency response 24 hours a day, 365 days a year. Our service trucks are stocked with commercial-grade parts to resolve most plumbing breakdowns on the spot."
         }
       },
       {
@@ -127,7 +126,7 @@ const homeExtraSchema = [
   geo={homeGeo}
   extraSchema={homeExtraSchema}
 >
-  <!-- 1. Top Hero Banner -->
+  <!-- 1. Clean Top Hero Banner (No Overlay Text) -->
   <section class="home-slider-hero" aria-label="RS Andrews Emergency Plumbing Hero">
     <img
       id="site-hero-img"
@@ -136,50 +135,67 @@ const homeExtraSchema = [
       width="1376"
       height="768"
       loading="eager"
-      referrerpolicy="no-referrer"
     />
   </section>
 
-  <!-- 2. First Google Reviews Section (Yellow) -->
+  <!-- 2. Above-the-Fold Royal Blue Conversion Ribbon (Directly Under Hero Photo) -->
+  <section class="blue-title-ribbon" aria-label="Primary Plumbing Call to Action">
+    <div class="container hero-conversion-inner">
+      <h1>Metro Atlanta Plumbing Services &amp; 24/7 Emergency Plumber</h1>
+      <p class="hero-trust-strip tabular-nums">
+        <span class="trust-star">★ {reviewStats.rating}</span>
+        <span>{reviewStats.count} Google Reviews</span>
+        <span class="trust-sep" aria-hidden="true">·</span>
+        <span>GA Master Plumber #MP210186</span>
+        <span class="trust-sep" aria-hidden="true">·</span>
+        <span>Upfront Flat-Rate Pricing</span>
+      </p>
+      <div class="hero-cta-row">
+        <a href={phoneHref} class="btn-phone-green hero-call-btn" data-call-location="hero_cta">
+          <svg class="phone-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>Call {phone} Now</span>
+        </a>
+        <span class="hero-cta-note">Live Local Dispatch 24/7 · Same-Day Service Available</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Verified Google Reviews Section -->
   <div id="reviews">
     <GoogleReviews variant="top" />
   </div>
 
-  <!-- 3. Blue Page Title Ribbon -->
-  <div class="blue-title-ribbon">
-    <div class="container">
-      <h1>Metro Atlanta Plumbing Services & 24/7 Emergency Plumber</h1>
-    </div>
-  </div>
-
   <!-- 4. Two-Column Intro Content & Photo -->
-  <section class="section" style="padding-top: 0;">
+  <section class="section">
     <div class="container">
       <div class="two-col-layout">
         <div class="two-col-copy">
-          <h2>Call Now And Ask For The Plumbing Team.<br />Get The Emergency Plumber You Need Now.</h2>
+          <h2>Call Now And Ask For The Plumbing Team.<br />Get The Emergency Plumber You Need Today.</h2>
           <p>
             <strong>RS Andrews Plumbing</strong> has earned Metro Atlanta's trust since 1968. If you are dealing with a burst pipe, severe drain clog, overflowing toilet, or leaking water heater, our licensed Master Plumbers (GA License #MP210186) are on call 24 hours a day, 7 days a week.
           </p>
           <p>
-            Whether you need a quick faucet repair, drain hydro-jetting, slab leak detection, or a brand-new high-efficiency tankless water heater, we provide straightforward flat-rate pricing with low down payments, flexible financing, and 100% satisfaction guaranteed. Call RS Andrews at {phone} for rapid dispatch to every community across Metro Atlanta.
+            Whether you need a quick faucet repair, drain hydro jetting, slab leak detection, or a brand-new high-efficiency tankless water heater, we provide straightforward flat-rate pricing, flexible financing, and a 100% satisfaction guarantee. Call RS Andrews at {phone} for rapid dispatch anywhere in Metro Atlanta.
           </p>
           <div style="margin-top: 20px;">
-            <a href={phoneHref} class="btn-phone-green" style="font-size: 1.15rem; padding: 10px 24px;">
-              📞 Call {phone} Now
+            <a href={phoneHref} class="btn-phone-green" data-call-location="intro_cta">
+              <svg class="phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+              </svg>
+              <span>Call {phone} Now</span>
             </a>
           </div>
         </div>
         <div class="framed-photo-box">
           <figure>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2F732d8de4-7704-4bae-9a6b-b95734477aae_plumber-soldering-a-small-copper-joint.webp?alt=media&token=e94ab6d2-1d10-445b-8b01-960eddd65234"
+              src="/images/plumber-soldering-a-small-copper-joint.webp"
               alt="RS Andrews Master Plumber Soldering Copper Pipe Joint in Metro Atlanta"
               width="480"
               height="360"
               loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="this.onerror=null;this.src='/images/plumber-soldering-a-small-copper-joint.webp';"
             />
             <figcaption>Licensed Master Plumbers Servicing Metro Atlanta 24/7</figcaption>
           </figure>
@@ -193,17 +209,15 @@ const homeExtraSchema = [
     <FAQ />
   </div>
 
-  <!-- 6. Wide Truck Panorama Banner -->
-  <section class="truck-banner-section" aria-label="RS Andrews 24/7 Mobile Service">
-    <div class="container" style="text-align: center;">
+  <!-- 6. Wide Brands & Fixtures Banner -->
+  <section class="truck-banner-section" aria-label="Residential Plumbing Brands, Fixtures and Appliances">
+    <div class="container">
       <img
-        src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2F2ff7bc15-0621-49ea-af90-ac3d9f0ecf07_residential-plumbing-brands-fixtures-appliances.webp?alt=media&token=1b49af46-4753-4448-be7c-91d95e92992b"
+        src="/images/residential-plumbing-brands-fixtures-appliances.webp"
         alt="RS Andrews Plumbing Brands, Fixtures and Appliances Servicing Metro Atlanta 365 Days a Year"
         width="1280"
         height="714"
         loading="lazy"
-        referrerpolicy="no-referrer"
-        onerror="this.onerror=null;this.src='/images/residential-plumbing-brands-fixtures-appliances.webp';"
       />
     </div>
   </section>
@@ -213,64 +227,48 @@ const homeExtraSchema = [
     <div class="container">
       <div class="two-col-layout">
         <div class="two-col-copy">
+          <h2>Stocked Service Trucks Ready To Solve Your Plumbing Issue On The First Visit</h2>
           <p>
-            Allow RS Andrews to be your trusted partner for keeping your home's water supply and drainage systems running cleanly and smoothly. We are a locally owned and operated plumbing company proud to hold Georgia Master Plumber License #MP210186.
+            Allow RS Andrews to be your trusted partner for keeping your home's water supply and drainage systems running cleanly and smoothly. We are a locally operated plumbing company proud to hold Georgia Master Plumber License #MP210186.
           </p>
           <p>
-            Our plumbers arrive in fully equipped rolling warehouse vans stocked with commercial-grade fixtures, motorized augers, leak detection tools, and universal fittings to complete most repairs on the first visit. From kitchen and bathroom remodels to emergency sewer line repairs, we stand behind all our work with our 100% satisfaction guarantee. Call {phone} today.
+            Our plumbers arrive in fully equipped service vans stocked with commercial-grade fixtures, motorized augers, acoustic leak detection tools, and replacement parts to complete most repairs on the spot. From kitchen and bathroom fixtures to emergency sewer line repairs, every job is backed by our 100% satisfaction guarantee. Call {phone} today.
           </p>
         </div>
         <div class="framed-photo-box">
           <figure>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2Fae0ff1cc-1584-4c65-9261-194759d80f04_tankless-water-heater5fg.webp?alt=media&token=f2c9effd-326b-4479-8dd5-838258fa97d8"
+              src="/images/tankless-water-heater5fg.webp"
               alt="RS Andrews High-Efficiency Tankless Water Heater Installation & Repair Metro Atlanta"
               width="480"
               height="480"
               loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="this.onerror=null;this.src='/images/tankless-water-heater5fg.webp';"
             />
-            <figcaption>Metro Atlanta Tankless Water Heater Installation & Repair</figcaption>
+            <figcaption>Metro Atlanta Tankless Water Heater Installation &amp; Repair</figcaption>
           </figure>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 8. Second Google Reviews Section (Yellow) -->
+  <!-- 8. Second Google Reviews Section -->
   <GoogleReviews variant="bottom" />
 
-  <!-- 9. Stationed Techs 24/7 Red-Bullet Feature Section -->
+  <!-- 9. Stationed Techs 24/7 Clickable Plumbing Services Grid -->
   <section class="stationed-techs-section">
     <div class="container">
       <h2>Call R.S. Andrews Day or Night. Weekends Too. We've Got Plumbers Stationed Throughout Metro Atlanta 24/7 for Fast Local Service.</h2>
-      
+
       <div class="stationed-cards-grid">
-        <div class="stationed-card">
-          <ul>
-            <li>Tankless Water Heaters</li>
-            <li>Standard Gas & Electric Tanks</li>
-            <li>Drain Cleaning & Hydro Jetting</li>
-            <li>Sewer Line Camera Inspection</li>
-          </ul>
-        </div>
-        <div class="stationed-card">
-          <ul>
-            <li>Burst Pipe Emergency Repairs</li>
-            <li>Slab Leak Detection & Fixes</li>
-            <li>Whole-Home PEX / Copper Repiping</li>
-            <li>Clogged Main Lines & Toilets</li>
-          </ul>
-        </div>
-        <div class="stationed-card">
-          <ul>
-            <li>Faucets, Sinks & Garbage Disposals</li>
-            <li>Sump Pumps & Sewage Ejectors</li>
-            <li>Gas Line Installation & Leak Repair</li>
-            <li>Water Filtration & Pressure Regulators</li>
-          </ul>
-        </div>
+        {stationedServiceGroups.map(group => (
+          <div class="stationed-card">
+            <ul>
+              {group.map(service => (
+                <li><a href={service.href}>{service.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -280,7 +278,7 @@ const homeExtraSchema = [
     <div class="container">
       <div class="blue-service-box">
         <h2>RS Andrews Plumbing, Drain Cleaning, and Water Heater Service Area</h2>
-        
+
         <div class="blue-service-cities-grid">
           <div class="city-col">
             {col1Cities.map(city => (
@@ -305,7 +303,7 @@ const homeExtraSchema = [
         </div>
 
         <div class="blue-service-bottom-bar">
-          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call for Special Financing Offers.
+          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call {phone} for Same-Day Dispatch &amp; Financing Options.
         </div>
       </div>
     </div>
@@ -316,7 +314,7 @@ const homeExtraSchema = [
     <div class="container">
       <div class="section-heading" style="text-align: center; margin-bottom: 30px;">
         <h2 style="font-size: clamp(1.35rem, 2.5vw, 1.85rem); color: #123954; font-weight: 800;">
-          Plumbing & Water Heater Brands Serviced: Bradford White, Rheem, A.O. Smith, Rinnai, Navien, Kohler, Moen, Delta, American Standard, and more.
+          Plumbing &amp; Water Heater Brands Serviced: Bradford White, Rheem, A.O. Smith, Rinnai, Navien, Kohler, Moen, Delta, American Standard, and More.
         </h2>
       </div>
 
@@ -324,16 +322,14 @@ const homeExtraSchema = [
         <div class="brands-media-box">
           <figure>
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0479232181.firebasestorage.app/o/users%2F2omoBhQUhFcZea22dJpNflFTXjb2%2Fassets%2F20cc78d1-2815-4f35-9273-11a0ce8837ce_2558-rheem-water-heater-installation.webp?alt=media&token=bea9221e-a530-4768-b317-87c94f13d252"
+              src="/images/2558-rheem-water-heater-installation.webp"
               alt="RS Andrews Professional Rheem Water Heater Installation & Replacement Metro Atlanta"
               width="720"
               height="1280"
               loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="this.onerror=null;this.src='/images/2558-rheem-water-heater-installation.webp';"
               style="max-height: 520px; object-fit: cover;"
             />
-            <figcaption>Professional Rheem Water Heater Installation & Service</figcaption>
+            <figcaption>Professional Rheem Water Heater Installation &amp; Service</figcaption>
           </figure>
         </div>
 
@@ -348,52 +344,57 @@ const homeExtraSchema = [
 
           <h4>Call For Special Seasonal Pricing on Tankless Water Heaters</h4>
           <p>
-            Upgrade to endless hot water on demand with an energy-efficient tankless water heater. Enjoy lower utility bills, a compact footprint, and double the lifespan of traditional tank heaters.
+            Upgrade to endless hot water on demand with an energy-efficient <a href="/tankless-water-heaters/">tankless water heater</a>. Enjoy lower utility bills, a compact wall-mounted footprint, and up to double the lifespan of traditional tank heaters.
           </p>
 
-          <h4>100% Financing Available At Low Interest Rates</h4>
+          <h4>Flexible Financing Available At Competitive Rates</h4>
           <p>
-            Unexpected plumbing emergencies shouldn't break your family's budget. We offer flexible zero-down financing programs and low monthly payment plans for water heater installations, sewer line replacements, and whole-house repiping.
+            Unexpected plumbing emergencies shouldn't disrupt your family's budget. We offer <a href="/plumbing-financing/">flexible financing programs</a> with low monthly payment plans for water heater replacements, sewer line repairs, and whole-house repiping.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 12. SEO Content Articles -->
+  <!-- 12. Plumbing Content Highlights -->
   <section class="seo-articles-section">
     <div class="container">
       <div class="seo-article-block">
-        <h3>Water Quality & Whole-Home Filtration in Metro Atlanta</h3>
+        <h3>Water Quality &amp; Whole-Home Filtration in Metro Atlanta</h3>
         <p>
-          Clean, healthy water is essential for your family. North Georgia municipal water systems often carry chlorine, sediment, and minerals that cause scale buildup inside pipes, water heaters, and fixtures. RS Andrews installs whole-home water filtration systems and water softeners that protect your appliances and deliver pure, great-tasting water from every faucet.
+          Clean, healthy water is essential for your family. North Georgia municipal water systems often carry chlorine, sediment, and minerals that cause scale buildup inside pipes, water heaters, and fixtures. RS Andrews installs <a href="/water-filtration-softeners/">whole-home water filtration systems and water softeners</a> that protect your appliances and deliver crisp, great-tasting water from every faucet.
         </p>
       </div>
 
       <div class="seo-article-block">
-        <h3>Sewer Line Repair, Hydro Jetting & Camera Inspections</h3>
+        <h3>Sewer Line Repair, Hydro Jetting &amp; Camera Inspections</h3>
         <p>
-          Slow drains and recurring sewage backups are frequently caused by tree root intrusion, broken underground clay pipes, or heavy grease buildup in the main sewer line. Our Atlanta plumbing team uses high-definition fiber-optic sewer cameras to pinpoint the exact location and depth of sewer blockages.
+          Slow drains and recurring sewage backups are frequently caused by tree root intrusion, cracked underground clay or cast-iron pipes, or heavy grease buildup in the main sewer line. Our Atlanta plumbing team uses high-definition fiber-optic sewer cameras to pinpoint the exact location and depth of <a href="/sewer-line-repair/">sewer line blockages</a>.
         </p>
         <p>
-          With high-pressure hydro jetting and modern trenchless pipe repair methods, we restore full sewer line flow quickly while protecting your lawn, driveway, and landscaping.
+          With high-pressure <a href="/drain-cleaning/">hydro jetting</a> and modern trenchless pipe repair methods, we restore full sewer line flow quickly while protecting your lawn, driveway, and landscaping.
         </p>
       </div>
 
       <div class="seo-article-block">
-        <h3>Low-Cost Preventative Plumbing Safety Inspections</h3>
+        <h3>Preventative Plumbing Safety Inspections</h3>
         <p>
           High municipal water pressure in Metro Atlanta can quietly exceed 80 PSI, stressing copper and PEX fittings, water heater tanks, and washing machine supply hoses until they suddenly burst.
         </p>
         <p>
-          Schedule an annual plumbing safety inspection with RS Andrews. We test your incoming water pressure, inspect shutoff valves, check for hidden slab leaks, and flush sediment from your water heater to prevent catastrophic flooding.
+          Schedule an annual <a href="/preventative-maintenance/">plumbing safety inspection</a> with RS Andrews. We test your incoming water pressure, inspect shutoff valves, check for hidden slab leaks, and flush sediment from your water heater to prevent unexpected flooding.
         </p>
       </div>
 
       <!-- 13. Big Red Estimate Callout -->
       <div class="big-red-callout">
-        <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
-        <a class="big-red-phone" href={phoneHref}>{phone}</a>
+        <h3>Call For A Free Estimate on Water Heater Replacement &amp; Repiping</h3>
+        <a class="big-red-phone" href={phoneHref} data-call-location="bottom_red_callout">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>{phone}</span>
+        </a>
       </div>
     </div>
   </section>

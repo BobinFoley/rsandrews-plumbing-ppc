@@ -120,19 +120,27 @@ const postExtraSchema = [
   </section>
 
   <!-- Royal Blue Title Ribbon -->
-  <div class="blue-title-ribbon">
-    <div class="container">
-      <div class="breadcrumbs" style="color: #c9e4f8; margin-bottom: 8px; font-size: 0.88rem;">
+  <section class="blue-title-ribbon">
+    <div class="container hero-conversion-inner">
+      <div class="breadcrumbs" style="color: #c9e4f8; margin-bottom: 2px; font-size: 0.88rem; justify-content: center;">
         <a href="/" style="color: #fff; text-decoration: none;">Home</a> <span style="opacity: 0.7;">/</span> <a href="/blog/" style="color: #fff; text-decoration: none;">Blog</a> <span style="opacity: 0.7;">/</span> <span style="color: #ffe87a;">{entry.data.category}</span>
       </div>
       <h1>{entry.data.title}</h1>
-      <div class="article-meta" style="color: #e2f0fb; font-size: 0.9rem; margin-top: 8px;">
+      <div class="article-meta" style="color: #e2f0fb; font-size: 0.9rem; margin-top: 2px; justify-content: center;">
         <span>By <strong>{entry.data.author}</strong></span>
         <span class="meta-dot">·</span>
         <time datetime={entry.data.pubDate.toISOString()}>{formatDate(entry.data.pubDate)}</time>
       </div>
+      <div class="hero-cta-row">
+        <a href={phoneHref} class="btn-phone-green hero-call-btn" data-call-location="blog_post_hero_cta">
+          <svg class="phone-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>Call {phone} Now</span>
+        </a>
+      </div>
     </div>
-  </div>
+  </section>
 
   <section class="section">
     <div class="container page-grid">
@@ -186,14 +194,14 @@ const postExtraSchema = [
             <h3>Need a Licensed Plumber in Metro Atlanta?</h3>
             <p>RS Andrews has provided 5-star plumbing and drain service since 1968. GA Master Plumber #MP210186. Call anytime for emergency dispatch or a free water heater estimate.</p>
           </div>
-          <a class="button" href={phoneHref}>Call {phone}</a>
+          <a class="btn-phone-green" href={phoneHref} data-call-location="blog_post_inline_cta">Call {phone}</a>
         </div>
       </article>
 
       <aside class="sidebar">
         <h2>Talk with RS Andrews Plumbing</h2>
         <p>Experiencing drain clogs, leaks, or water heater issues? Call our team 24/7 for prompt troubleshooting and emergency dispatch.</p>
-        <a class="button" href={phoneHref}>Call {phone}</a>
+        <a class="button" href={phoneHref} data-call-location="blog_post_sidebar_cta">Call {phone}</a>
 
         <h2 style="margin-top:32px">Plumbing Services</h2>
         {services.map(item => (
@@ -223,8 +231,8 @@ const postExtraSchema = [
 
   <div class="container" style="margin: 35px auto 10px;">
     <div class="big-red-callout">
-      <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
-      <a class="big-red-phone" href={phoneHref}>{phone}</a>
+      <h3>Call For A Free Estimate on Water Heater Replacement &amp; Repiping</h3>
+      <a class="big-red-phone" href={phoneHref} data-call-location="blog_post_bottom_callout">{phone}</a>
     </div>
   </div>
 </SiteLayout>

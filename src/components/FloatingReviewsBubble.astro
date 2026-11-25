@@ -1,13 +1,13 @@
 ---
-// Floating Google Reviews Bubble on lower left-hand side
+import { reviewStats } from '../data/site';
 ---
 
 <a
   href="#reviews"
   id="floating-reviews-bubble"
   class="floating-reviews-bubble"
-  aria-label="View Google Reviews: 4.9 rating based on 9,559 customer reviews"
-  title="Click to jump to Google reviews"
+  aria-label={`View Google Reviews: ${reviewStats.rating} rating based on ${reviewStats.count} customer reviews`}
+  title="Jump to customer reviews"
 >
   <div class="frb-google-icon" aria-hidden="true">
     <svg width="24" height="24" viewBox="0 0 24 24">
@@ -17,12 +17,12 @@
       <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.27 2.58 1.25 6.58l4.03 3.1c.95-2.83 3.6-4.93 6.72-4.93z"/>
     </svg>
   </div>
-  <div class="frb-content">
+  <div class="frb-content tabular-nums">
     <div class="frb-rating-row">
-      <span class="frb-score">4.9</span>
+      <span class="frb-score">{reviewStats.rating}</span>
       <span class="frb-stars" aria-hidden="true">★★★★★</span>
     </div>
-    <div class="frb-label">9,559 Google reviews</div>
+    <div class="frb-label">{reviewStats.count} Google reviews</div>
   </div>
 </a>
 
@@ -31,7 +31,7 @@
     position: fixed;
     bottom: 24px;
     left: 24px;
-    z-index: 999;
+    z-index: 90;
     background: #ffffff;
     color: #1a3348;
     border-radius: 40px;
@@ -42,15 +42,13 @@
     text-decoration: none;
     box-shadow: 0 6px 22px rgba(16, 44, 67, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08);
     border: 1px solid #dce6ed;
-    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     user-select: none;
     cursor: pointer;
-    backdrop-filter: blur(8px);
   }
   .floating-reviews-bubble:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 30px rgba(16, 44, 67, 0.24), 0 4px 10px rgba(0, 0, 0, 0.12);
-    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(16, 44, 67, 0.22);
     color: #0b559b;
   }
   .frb-google-icon {
@@ -74,10 +72,9 @@
     font-weight: 800;
     font-size: 0.96rem;
     color: #1a3348;
-    letter-spacing: -0.01em;
   }
   .frb-stars {
-    color: #f59e0b;
+    color: #d97706;
     font-size: 0.88rem;
     letter-spacing: 1.5px;
   }
@@ -88,17 +85,10 @@
     margin-top: 1px;
   }
 
+  /* Hide on mobile so it never overlaps the sticky bottom call bar */
   @media (max-width: 768px) {
     .floating-reviews-bubble {
-      bottom: 76px; /* Safe distance above sticky mobile call bar */
-      left: 12px;
-      padding: 7px 13px 7px 9px;
-    }
-    .frb-score {
-      font-size: 0.88rem;
-    }
-    .frb-label {
-      font-size: 0.68rem;
+      display: none;
     }
   }
 </style>
@@ -109,14 +99,14 @@
     if (bubble) {
       bubble.addEventListener('click', (e) => {
         const reviewsTarget = document.getElementById('reviews');
+        e.preventDefault();
         if (reviewsTarget) {
-          e.preventDefault();
           reviewsTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
           if (history.pushState) {
             history.pushState(null, '', '#reviews');
-          } else {
-            location.hash = '#reviews';
           }
+        } else {
+          window.location.href = '/#reviews';
         }
       });
     }

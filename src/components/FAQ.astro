@@ -4,7 +4,7 @@ import { phone, phoneHref } from '../data/site';
 const faqs = [
   {
     q: "Why is RS Andrews Metro Atlanta's trusted plumbing contractor?",
-    a: "RS Andrews has served Metro Atlanta homeowners and businesses since 1968. Our licensed Master Plumbers (GA License #MP210186) provide upfront flat-rate pricing, 100% satisfaction guarantees, and emergency response 24 hours a day, 365 days a year. Our service trucks are stocked with commercial-grade parts to resolve most plumbing breakdowns on the spot."
+    a: "RS Andrews has served Metro Atlanta homeowners since 1968. Our licensed Master Plumbers (GA License #MP210186) provide upfront flat-rate pricing, 100% satisfaction guarantees, and emergency response 24 hours a day, 365 days a year. Our service trucks are stocked with commercial-grade parts to resolve most plumbing breakdowns on the spot."
   },
   {
     q: "What should I do immediately during a plumbing emergency in Metro Atlanta?",
@@ -44,8 +44,8 @@ const faqs = [
           </summary>
           <div class="faq-answer">
             <p>{item.a}</p>
-            <p style="margin-top: 8px;">
-              <a href={phoneHref} style="color: #0b559b; font-weight: 700;">Need immediate plumbing help? Call RS Andrews at {phone} →</a>
+            <p class="faq-cta-line">
+              <a href={phoneHref} data-call-location="faq_inline">Need immediate plumbing help? Call RS Andrews at {phone} →</a>
             </p>
           </div>
         </details>
@@ -56,12 +56,12 @@ const faqs = [
 
 <style>
   .faq-section {
-    padding: 48px 0;
+    padding: 46px 0;
     background: #fbfcfd;
   }
   .faq-header {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
   }
   .faq-header h2 {
     font-size: clamp(1.4rem, 2.6vw, 1.95rem);
@@ -79,10 +79,10 @@ const faqs = [
   }
   .faq-item {
     background: #ffffff;
-    border: 1.5px solid #b2d2e9;
+    border: 1.5px solid #b8d5ea;
     border-radius: 6px;
     overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .faq-item:hover {
     border-color: #0b559b;
@@ -93,7 +93,7 @@ const faqs = [
   }
   .faq-summary {
     list-style: none;
-    padding: 14px 20px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -105,31 +105,42 @@ const faqs = [
   }
   .faq-question {
     font-weight: 700;
-    font-size: 0.96rem;
+    font-size: 0.98rem;
     color: #0b4d7e;
     line-height: 1.35;
     padding-right: 16px;
   }
   .faq-toggle-icon {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 700;
     color: #0b559b;
     line-height: 1;
     flex-shrink: 0;
+    display: inline-block;
+    transition: transform 0.2s ease;
   }
   .faq-item[open] .faq-toggle-icon {
-    content: "−";
     transform: rotate(45deg);
   }
   .faq-answer {
-    padding: 0 20px 18px;
-    font-size: 0.94rem;
-    line-height: 1.55;
-    color: #384e5e;
+    padding: 14px 20px 18px;
+    font-size: 0.95rem;
+    line-height: 1.58;
+    color: #364d5e;
     border-top: 1px dashed #e1ecf2;
-    padding-top: 14px;
   }
   .faq-answer p {
     margin: 0;
+  }
+  .faq-cta-line {
+    margin-top: 10px !important;
+  }
+  .faq-cta-line a {
+    color: #0b559b;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .faq-cta-line a:hover {
+    text-decoration: underline;
   }
 </style>

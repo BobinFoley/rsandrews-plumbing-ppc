@@ -2,7 +2,7 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import { getCollection } from 'astro:content';
-import { phone, phoneHref, siteUrl } from '../data/site';
+import { phone, phoneHref, reviewStats, siteUrl } from '../data/site';
 import { getPlacementsForPage } from '../data/placements';
 
 const homePlacements = getPlacementsForPage('/');
@@ -11,7 +11,6 @@ const homeHeroImage = homeHeroPlacement?.image || '/images/plumber-rsandrews.web
 const homeHeroAlt = homeHeroPlacement?.imageAlt || 'RS Andrews 24/7 Emergency Plumbing Services Across Metro Atlanta';
 
 const allLocations = await getCollection('locations');
-const cities = allLocations.sort((a,b) => a.data.city!.localeCompare(b.data.city!));
 const services = (await getCollection('services')).sort((a,b) => a.data.title.localeCompare(b.data.title));
 const blogPosts = (await getCollection('blog')).sort((a,b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
@@ -64,7 +63,7 @@ const sitemapExtraSchema = [
   geo={sitemapGeo}
   extraSchema={sitemapExtraSchema}
 >
-  <!-- Top Hero Banner -->
+  <!-- Clean Top Hero Banner -->
   <section class="home-slider-hero" aria-label="RS Andrews Emergency Plumbing Hero">
     <img
       id="site-hero-img"
@@ -73,8 +72,31 @@ const sitemapExtraSchema = [
       width="1376"
       height="768"
       loading="eager"
-      referrerpolicy="no-referrer"
     />
+  </section>
+
+  <!-- Above-the-Fold Royal Blue Conversion Ribbon -->
+  <section class="blue-title-ribbon" aria-label="Service Areas and Sitemap Header">
+    <div class="container hero-conversion-inner">
+      <h1>Metro Atlanta Plumbing Services &amp; Service Areas</h1>
+      <p class="hero-trust-strip tabular-nums">
+        <span class="trust-star">★ {reviewStats.rating}</span>
+        <span>{reviewStats.count} Google Reviews</span>
+        <span class="trust-sep" aria-hidden="true">·</span>
+        <span>15 Residential Plumbing Services</span>
+        <span class="trust-sep" aria-hidden="true">·</span>
+        <span>42 Metro Atlanta Communities</span>
+      </p>
+      <div class="hero-cta-row">
+        <a href={phoneHref} class="btn-phone-green hero-call-btn" data-call-location="sitemap_hero_cta">
+          <svg class="phone-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>Call {phone} Now</span>
+        </a>
+        <span class="hero-cta-note">24/7 Local Dispatch · GA Master Plumber #MP210186</span>
+      </div>
+    </div>
   </section>
 
   <!-- Google Reviews -->
@@ -82,26 +104,19 @@ const sitemapExtraSchema = [
     <GoogleReviews variant="top" />
   </div>
 
-  <!-- Royal Blue Title Ribbon -->
-  <div class="blue-title-ribbon">
-    <div class="container">
-      <h1>Sitemap & Service Areas Directory</h1>
-    </div>
-  </div>
-
   <!-- Services Section -->
-  <section class="section" style="padding-top: 10px;">
+  <section class="section" style="padding: 36px 0 10px;">
     <div class="container">
       <div class="section-heading" style="text-align: center; margin-bottom: 24px;">
         <h2 style="font-size: clamp(1.4rem, 2.8vw, 1.95rem); color: #123954; font-weight: 800;">
-          Plumbing, Drain & Emergency Services
+          Residential Plumbing, Drain &amp; Emergency Services
         </h2>
       </div>
 
       <div class="service-cards-custom">
         <a href="/" class="service-card-item">
           <h3>Home</h3>
-          <p>Main homepage, 5-star customer reviews, water heater brands & seasonal maintenance info.</p>
+          <p>Main homepage, 5-star customer reviews, water heater brands &amp; 24/7 emergency dispatch.</p>
         </a>
         {services.map(page => (
           <a href={`/${page.id}/`} class="service-card-item">
@@ -110,7 +125,7 @@ const sitemapExtraSchema = [
           </a>
         ))}
         <a href="/blog/" class="service-card-item">
-          <h3>Plumbing Advice & Blog</h3>
+          <h3>Plumbing Advice &amp; Blog</h3>
           <p>Guides, troubleshooting tips, drain cleaning advice, and water heater buyer guides.</p>
         </a>
       </div>
@@ -122,7 +137,7 @@ const sitemapExtraSchema = [
     <div class="container">
       <div class="blue-service-box">
         <h2>RS Andrews Plumbing, Drain Cleaning, and Water Heater Service Area</h2>
-        
+
         <div class="blue-service-cities-grid">
           <div class="city-col">
             {col1Cities.map(city => (
@@ -147,7 +162,7 @@ const sitemapExtraSchema = [
         </div>
 
         <div class="blue-service-bottom-bar">
-          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call for Special Financing Offers.
+          Plumbing Repair, Drain Cleaning, Water Heater Replacement, and Sewer Line Solutions. Call {phone} for Same-Day Dispatch.
         </div>
       </div>
     </div>
@@ -175,8 +190,13 @@ const sitemapExtraSchema = [
   <!-- Big Red Estimate Callout -->
   <div class="container">
     <div class="big-red-callout" style="margin-bottom: 45px;">
-      <h3>Call For A Free Estimate on Water Heater Replacement & Repiping</h3>
-      <a class="big-red-phone" href={phoneHref}>{phone}</a>
+      <h3>Call For A Free Estimate on Water Heater Replacement &amp; Repiping</h3>
+      <a class="big-red-phone" href={phoneHref} data-call-location="sitemap_bottom_callout">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+        </svg>
+        <span>{phone}</span>
+      </a>
     </div>
   </div>
 </SiteLayout>
@@ -193,21 +213,21 @@ const sitemapExtraSchema = [
     background: #ffffff;
     border: 1px solid #d4e3ed;
     border-top: 4px solid #005fa8;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 20px;
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s, border-top-color 0.2s;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-top-color 0.2s ease;
   }
   .service-card-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     border-top-color: #d32f2f;
   }
   .service-card-item h3 {
     margin: 0 0 8px;
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     font-weight: 800;
     color: #0b559b;
   }
@@ -215,7 +235,7 @@ const sitemapExtraSchema = [
     margin: 0;
     font-size: 0.88rem;
     color: #435b6c;
-    line-height: 1.45;
+    line-height: 1.48;
   }
   @media (max-width: 900px) {
     .service-cards-custom {

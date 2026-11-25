@@ -8,19 +8,24 @@ export const GET: APIRoute = async ({ site }) => {
 
   const staticRoutes = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },
-    { url: '/plumbing-services/', priority: '0.9', changefreq: 'weekly' },
-    { url: '/24-7-emergency-plumbing/', priority: '0.9', changefreq: 'weekly' },
-    { url: '/water-heater-repair/', priority: '0.9', changefreq: 'weekly' },
-    { url: '/drain-cleaning/', priority: '0.9', changefreq: 'weekly' },
-    { url: '/plumbing-financing/', priority: '0.8', changefreq: 'monthly' },
-    { url: '/plumbing-brands-serviced/', priority: '0.8', changefreq: 'monthly' },
-    { url: '/preventative-maintenance/', priority: '0.8', changefreq: 'monthly' },
     { url: '/blog/', priority: '0.8', changefreq: 'weekly' },
     { url: '/sitemap/', priority: '0.7', changefreq: 'weekly' },
   ];
 
-  // Dynamic location service area routes
-  const locationFiles = fs.readdirSync(path.resolve('src/content/locations')).filter(f => f.endsWith('.md'));
+  // Dynamic residential plumbing service routes (all 15 services)
+  const serviceFiles = fs.existsSync(path.resolve('src/content/services'))
+    ? fs.readdirSync(path.resolve('src/content/services')).filter(f => f.endsWith('.md')).sort()
+    : [];
+  const serviceRoutes = serviceFiles.map(file => ({
+    url: `/${file.replace(/\.md$/, '')}/`,
+    priority: '0.9',
+    changefreq: 'weekly'
+  }));
+
+  // Dynamic location service area routes (all 42 Metro Atlanta cities)
+  const locationFiles = fs.existsSync(path.resolve('src/content/locations'))
+    ? fs.readdirSync(path.resolve('src/content/locations')).filter(f => f.endsWith('.md')).sort()
+    : [];
   const locationRoutes = locationFiles.map(file => ({
     url: `/${file.replace(/\.md$/, '')}/`,
     priority: '0.85',
@@ -29,7 +34,7 @@ export const GET: APIRoute = async ({ site }) => {
 
   // Blog article routes
   const blogFiles = fs.existsSync(path.resolve('src/content/blog'))
-    ? fs.readdirSync(path.resolve('src/content/blog')).filter(f => f.endsWith('.md'))
+    ? fs.readdirSync(path.resolve('src/content/blog')).filter(f => f.endsWith('.md')).sort()
     : [];
   const blogRoutes = blogFiles.map(file => ({
     url: `/blog/${file.replace(/\.md$/, '')}/`,
@@ -37,7 +42,7 @@ export const GET: APIRoute = async ({ site }) => {
     changefreq: 'monthly'
   }));
 
-  const allRoutes = [...staticRoutes, ...locationRoutes, ...blogRoutes];
+  const allRoutes = [...staticRoutes, ...serviceRoutes, ...locationRoutes, ...blogRoutes];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

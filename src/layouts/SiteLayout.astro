@@ -1,5 +1,5 @@
 ---
-import { business, phone, phoneHref, services, siteUrl } from '../data/site';
+import { business, phone, phoneHref, reviewStats, siteUrl } from '../data/site';
 import media from '../data/media.json';
 import FloatingReviewsBubble from '../components/FloatingReviewsBubble.astro';
 import MobileStickyCallBar from '../components/MobileStickyCallBar.astro';
@@ -53,7 +53,6 @@ const safeUrl = (target?: string, base?: string): string => {
 };
 
 const normalizedSiteUrl = normalizeBase(siteUrl);
-// Netlify's URL points at the current deployed site, including before the final domain moves.
 const socialBase = normalizeBase(process.env.URL || siteUrl);
 
 const canonical = safeUrl(path, normalizedSiteUrl);
@@ -132,6 +131,9 @@ const schema = {
   {geo?.position && <meta name="geo.position" content={geo.position} />}
   {geo?.icbm && <meta name="ICBM" content={geo.icbm} />}
   <link rel="canonical" href={canonical} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={business.name} />
   <meta property="og:locale" content="en_US" />
@@ -162,11 +164,14 @@ const schema = {
   <header class="site-header">
     <div class="container header-main-row">
       <a class="header-brand" href="/" aria-label="RS Andrews Plumbing home">
-        <img src="/images/hvac-plumbing-logo-325.jpg" alt="RS Andrews Plumbing, Heating and Air Conditioning - Story After Story, We Deliver Smiles!" width="325" height="94" />
+        <img src="/images/hvac-plumbing-logo-325.jpg" alt="RS Andrews Plumbing — Metro Atlanta Master Plumbers Since 1968" width="325" height="94" />
       </a>
       <div class="header-right-actions">
-        <a href="#reviews" class="btn-check-reviews">
-          <span class="btn-star">★</span> Check Reviews
+        <a href="#reviews" id="header-reviews-link" class="btn-check-reviews">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2l2.92 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.08-1.01L12 2z"/>
+          </svg>
+          <span>{reviewStats.rating} ({reviewStats.count} Reviews)</span>
         </a>
         <div class="payment-cards" aria-label="Accepted payment methods">
           <span class="pay-badge visa">VISA</span>
@@ -174,42 +179,105 @@ const schema = {
           <span class="pay-badge disc">DISC</span>
           <span class="pay-badge amex">AMEX</span>
         </div>
-        <a class="btn-phone-green" href={phoneHref} aria-label={`Call RS Andrews at ${phone}`}>
-          <svg class="phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <a class="btn-phone-green" href={phoneHref} data-call-location="header_cta" aria-label={`Call RS Andrews Plumbing at ${phone}`}>
+          <svg class="phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
           </svg>
           <span>{phone}</span>
         </a>
       </div>
+
+      <div class="mobile-header-controls">
+        <button
+          type="button"
+          id="mobile-menu-toggle"
+          class="mobile-menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav-drawer"
+          aria-label="Open navigation menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+          <span>Menu</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Accessible Mobile Navigation Drawer -->
+    <nav id="mobile-nav-drawer" class="mobile-nav-drawer" aria-label="Mobile navigation">
+      <div class="container mobile-nav-inner">
+        <div class="mobile-nav-links">
+          <a href="/">Home</a>
+          <a href="/plumbing-services/">All Services</a>
+          <a href="/24-7-emergency-plumbing/">24/7 Emergency</a>
+          <a href="/water-heater-repair/">Water Heaters</a>
+          <a href="/tankless-water-heaters/">Tankless Systems</a>
+          <a href="/drain-cleaning/">Drain Cleaning</a>
+          <a href="/leak-detection-slab-leak-repair/">Leak Detection</a>
+          <a href="/sewer-line-repair/">Sewer Lines</a>
+          <a href="/whole-home-repiping/">Repiping</a>
+          <a href="/plumbing-financing/">Financing</a>
+          <a href="/sitemap/">Service Areas</a>
+          <a href="/blog/">Plumbing Blog</a>
+        </div>
+        <a class="btn-phone-green mobile-drawer-cta" href={phoneHref} data-call-location="mobile_drawer_cta">
+          <svg class="phone-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <span>Call {phone} — 24/7 Dispatch</span>
+        </a>
+      </div>
+    </nav>
   </header>
 
-  <!-- Red Action Bar -->
+  <!-- Red Action Bar (Crisp Inline SVGs, Zero Raw Emojis) -->
   <nav class="red-action-bar" aria-label="Quick Emergency and Service Actions">
     <div class="container action-bar-grid">
       <a href="/24-7-emergency-plumbing/" class="action-item">
-        <span class="action-icon">🚨</span>
+        <span class="action-icon" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <polyline points="12 7 12 12 15.5 14" />
+          </svg>
+        </span>
         <div class="action-text">
           <strong class="action-title">24/7</strong>
           <span class="action-sub">Emergency Plumber</span>
         </div>
       </a>
       <a href="/water-heater-repair/" class="action-item">
-        <span class="action-icon">🔥</span>
+        <span class="action-icon" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.5c2.2 3 5.5 5.8 5.5 10.2a5.5 5.5 0 1 1-11 0c0-2.6 1.5-5 3.1-6.8.2 1.7 1.1 2.7 2.4 3.1-.4-2.1-.4-4.2 0-6.5z" />
+          </svg>
+        </span>
         <div class="action-text">
           <strong class="action-title">Water Heaters</strong>
           <span class="action-sub">Tank & Tankless Systems</span>
         </div>
       </a>
       <a href="/drain-cleaning/" class="action-item">
-        <span class="action-icon">🚿</span>
+        <span class="action-icon" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.7l5.3 6.9a7 7 0 1 1-10.6 0L12 2.7z" />
+          </svg>
+        </span>
         <div class="action-text">
           <strong class="action-title">Drain Cleaning</strong>
           <span class="action-sub">Snaking & Hydro Jetting</span>
         </div>
       </a>
       <a href="/plumbing-financing/" class="action-item">
-        <span class="action-icon">💳</span>
+        <span class="action-icon" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5.5" width="19" height="13" rx="2" />
+            <line x1="2.5" y1="10" x2="21.5" y2="10" />
+            <line x1="6.5" y1="14.5" x2="10.5" y2="14.5" />
+          </svg>
+        </span>
         <div class="action-text">
           <strong class="action-title">Plumbing Financing</strong>
           <span class="action-sub">Low Rates & Payments</span>
@@ -226,10 +294,12 @@ const schema = {
         <a href="/plumbing-services/">Plumbing Services</a>
         <a href="/water-heater-repair/">Water Heaters</a>
         <a href="/drain-cleaning/">Drain Cleaning</a>
+        <a href="/leak-detection-slab-leak-repair/">Leak Detection</a>
+        <a href="/sewer-line-repair/">Sewer Lines</a>
         <a href="/sitemap/">Service Areas</a>
-        <a href="/blog/">Plumbing Blog</a>
+        <a href="/blog/">Blog</a>
       </nav>
-      <span class="sub-nav-tagline">Metro Atlanta Master Plumber Since 1968 • GA Lic #MP210186</span>
+      <span class="sub-nav-tagline">Metro Atlanta Master Plumber Since 1968 · GA Lic #MP210186</span>
     </div>
   </div>
 
@@ -238,63 +308,133 @@ const schema = {
   <footer class="footer-original">
     <div class="container footer-four-cols">
       <div class="footer-col">
-        <h3>Get In Touch!</h3>
+        <h3>Call Our Plumbing Team</h3>
         <p class="contact-line">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
-          <a href={phoneHref} class="footer-phone-link">{phone}</a>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"/></svg>
+          <a href={phoneHref} class="footer-phone-link" data-call-location="footer_phone">{phone}</a>
         </p>
         <p class="contact-line">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           <span>3617 Clearview Parkway<br />Atlanta, GA 30340</span>
         </p>
         <p class="contact-line">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <a href="mailto:office@rsandrews.com">Email Us</a>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.92 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.08-1.01L12 2z"/></svg>
+          <span class="tabular-nums"><strong>{reviewStats.rating} / 5</strong> · {reviewStats.count} Google Reviews</span>
         </p>
       </div>
 
       <div class="footer-col">
-        <h3>Plumbing Resources</h3>
+        <h3>Core Plumbing Services</h3>
         <ul class="footer-links-list">
-          <li><a href="/#faq">Plumbing FAQ</a></li>
-          <li><a href="/plumbing-services/">All Plumbing Services</a></li>
           <li><a href="/24-7-emergency-plumbing/">24/7 Emergency Plumber</a></li>
-          <li><a href="/water-heater-repair/">Water Heater Repair</a></li>
-          <li><a href="/drain-cleaning/">Drain Cleaning & Jetting</a></li>
-          <li><a href="/plumbing-financing/">Plumbing Financing</a></li>
-          <li><a href="/blog/">Plumbing Tips & Guides</a></li>
-          <li><a href="/sitemap/">All Service Areas</a></li>
+          <li><a href="/water-heater-repair/">Water Heater Repair & Install</a></li>
+          <li><a href="/tankless-water-heaters/">Tankless Water Heaters</a></li>
+          <li><a href="/drain-cleaning/">Drain Cleaning & Hydro Jetting</a></li>
+          <li><a href="/leak-detection-slab-leak-repair/">Leak Detection & Slab Leaks</a></li>
+          <li><a href="/sewer-line-repair/">Sewer Line Repair & Camera</a></li>
+          <li><a href="/whole-home-repiping/">Whole-Home Repiping</a></li>
+          <li><a href="/toilet-faucet-fixture-repair/">Toilets, Faucets & Disposals</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Hours</h3>
-        <p>Office Hours: 8am - 5pm<br />Service Hours: 8am - 6pm<br /><strong>24-Hour Emergency Plumbing Service</strong></p>
-        <div class="social-icons" style="margin-top: 14px;">
-          <a href="https://facebook.com/rsandrews" target="_blank" rel="noopener noreferrer" aria-label="RS Andrews Facebook">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </a>
-        </div>
+        <h3>More Plumbing Solutions</h3>
+        <ul class="footer-links-list">
+          <li><a href="/gas-line-repair/">Gas Line Installation & Repair</a></li>
+          <li><a href="/sump-pump-repair/">Sump Pumps & Ejectors</a></li>
+          <li><a href="/water-filtration-softeners/">Water Filtration & Softeners</a></li>
+          <li><a href="/plumbing-financing/">Plumbing Financing Options</a></li>
+          <li><a href="/plumbing-brands-serviced/">Brands Serviced</a></li>
+          <li><a href="/preventative-maintenance/">Plumbing Safety Inspections</a></li>
+          <li><a href="/plumbing-services/">All Plumbing Services</a></li>
+          <li><a href="/sitemap/">All 42 Metro Atlanta Cities</a></li>
+        </ul>
       </div>
 
       <div class="footer-col">
-        <h3>Licensed Master Plumber</h3>
-        <p><strong>GA Master Plumber #MP210186</strong><br />GA Conditioned Air #CN209549<br />Fully Licensed, Bonded & Insured</p>
-        <div class="social-icons" style="margin-top: 14px;">
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="RS Andrews YouTube">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-        </div>
+        <h3>Hours & Credentials</h3>
+        <p style="margin: 0 0 12px; font-size: 0.92rem; line-height: 1.55;">
+          Office Hours: 8am – 5pm<br />
+          Service Hours: 8am – 6pm<br />
+          <strong>24-Hour Emergency Plumbing Dispatch</strong>
+        </p>
+        <p style="margin: 0; font-size: 0.92rem; line-height: 1.55;">
+          <strong>GA Master Plumber #MP210186</strong><br />
+          Serving Metro Atlanta Since 1968<br />
+          Licensed, Bonded & Insured
+        </p>
       </div>
     </div>
 
     <div class="footer-bottom-bar">
       <div class="container footer-bottom-inner">
-        <span>Atlanta Plumbing © {new Date().getFullYear()} RS Andrews Plumbing. All Rights Reserved. | <a href="/sitemap/">Sitemap</a> | Marketing and Design by <a href="https://micromanagedmedia.com/" target="_blank" rel="noopener noreferrer">MicroManaged Media, Inc.</a></span>
+        <span>© {new Date().getFullYear()} RS Andrews Plumbing. All Rights Reserved. · GA Master Plumber #MP210186 · <a href="/sitemap/">Service Areas & Sitemap</a></span>
       </div>
     </div>
   </footer>
   <FloatingReviewsBubble />
   <MobileStickyCallBar />
+
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Mobile navigation drawer toggle
+      const toggleBtn = document.getElementById('mobile-menu-toggle');
+      const drawer = document.getElementById('mobile-nav-drawer');
+      if (toggleBtn && drawer) {
+        const closeDrawer = () => {
+          drawer.classList.remove('is-open');
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          toggleBtn.setAttribute('aria-label', 'Open navigation menu');
+        };
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = drawer.classList.toggle('is-open');
+          toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          toggleBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        });
+        drawer.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', closeDrawer);
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeDrawer();
+        });
+        document.addEventListener('click', (e) => {
+          if (drawer.classList.contains('is-open') && !drawer.contains(e.target) && !toggleBtn.contains(e.target)) {
+            closeDrawer();
+          }
+        });
+      }
+
+      // 2. Smart header reviews link (scrolls if #reviews exists on page, otherwise navigates to /#reviews)
+      const headerReviewsLink = document.getElementById('header-reviews-link');
+      if (headerReviewsLink) {
+        headerReviewsLink.addEventListener('click', (e) => {
+          const target = document.getElementById('reviews');
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            e.preventDefault();
+            window.location.href = '/#reviews';
+          }
+        });
+      }
+
+      // 3. GA4 Click-to-Call conversion tracking for paid traffic
+      document.addEventListener('click', (e) => {
+        const anchor = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+        if (!anchor) return;
+        const callLocation = anchor.getAttribute('data-call-location') || 'inline_phone_link';
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'phone_call_click', {
+            event_category: 'conversion',
+            event_label: callLocation,
+            phone_number: anchor.getAttribute('href'),
+            page_path: window.location.pathname
+          });
+        }
+      });
+    });
+  </script>
 </body>
 </html>

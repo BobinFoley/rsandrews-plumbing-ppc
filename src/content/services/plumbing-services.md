@@ -4,19 +4,23 @@ description: "Comprehensive residential and commercial plumbing services across 
 type: service
 ---
 
-RS Andrews provides complete residential and light commercial plumbing services across Metro Atlanta. From minor fixture repairs to whole-house repiping and sewer line replacements, our team delivers upfront pricing, dependable craftsmanship, and friendly service backed by our 100% satisfaction guarantee. **Call [404-806-9284](tel:4048069284)** to schedule an appointment.
+RS Andrews provides complete residential and light commercial plumbing services across Metro Atlanta. From minor fixture repairs to whole-house repiping and sewer line replacements, our team delivers upfront flat-rate pricing, dependable craftsmanship, and friendly service backed by our 100% satisfaction guarantee. **Call [404-806-9284](tel:4048069284)** to speak directly with our plumbing dispatch team.
 
-## Complete Plumbing Capabilities
+## Complete Residential Plumbing Capabilities
 
-- **Water Heater Services:** Repair, maintenance, and new installations for both tankless and traditional tank water heaters ([water heater details](/water-heater-repair/)).
-- **Drain & Sewer Solutions:** High-powered snaking, hydro jetting, and digital in-line camera inspections ([drain cleaning details](/drain-cleaning/)).
-- **Leak Detection & Pipe Repair:** Non-invasive electronic leak detection, slab leak repairs, and whole-home copper or PEX repiping.
-- **Fixture Installations & Repairs:** Toilets, faucets, sinks, showers, garbage disposals, and outdoor hose bibbs.
-- **Water Quality Systems:** Whole-home water filtration, water softeners, and pressure reducing valves (PRVs).
-- **Gas Lines & Sump Pumps:** Certified gas pipe installation, leak repair, and sump pump replacements.
+- **[24/7 Emergency Plumbing](/24-7-emergency-plumbing/):** Rapid dispatch for burst pipes, active leaks, overflowing toilets, and sewage backups day or night.
+- **[Water Heater Repair & Replacement](/water-heater-repair/):** Same-day repair and replacement for conventional gas and electric tank water heaters.
+- **[Tankless Water Heaters](/tankless-water-heaters/):** Energy-efficient on-demand tankless systems from Rinnai, Navien, and Rheem.
+- **[Drain Cleaning & Hydro Jetting](/drain-cleaning/):** Motorized drain clearing, high-pressure hydro jetting, and video camera inspections.
+- **[Sewer Line Repair & Replacement](/sewer-line-repair/):** Root clearing, spot repairs, and trenchless main sewer line replacements.
+- **[Leak Detection & Slab Leak Repair](/leak-detection-slab-leak-repair/):** Non-invasive acoustic and thermal leak detection for hidden wall, floor, and slab leaks.
+- **[Whole-Home Repiping (PEX & Copper)](/whole-home-repiping/):** Complete replacement of leaky polybutylene, galvanized, or corroded copper water pipes.
+- **[Toilets, Faucets, Sinks & Disposals](/toilet-faucet-fixture-repair/):** Same-day fixture repair and installation with stocked warehouse vans.
+- **[Gas Line Repair & Installation](/gas-line-repair/):** Licensed gas leak detection, pressure testing, and new appliance gas runs.
+- **[Sump Pumps & Sewage Ejectors](/sump-pump-repair/):** Primary and battery-backup basement flood protection systems.
+- **[Water Filtration & Water Softeners](/water-filtration-softeners/):** Whole-home carbon filtration, water softeners, and reverse osmosis drinking water systems.
+- **[Preventative Plumbing Maintenance](/preventative-maintenance/):** Annual water pressure tests, water heater flushes, and whole-home valve inspections.
 
 ## The RS Andrews Master Plumber Difference
 
-We hold Georgia Master Plumber License #MP210186. Every technician arrives in uniform, respects your home with protective floor coverings, explains all repair options in writing, and provides clear, flat-rate quotes before any work begins.
-
-For sudden plumbing emergencies, call our [24/7 emergency team](/24-7-emergency-plumbing/). If you are planning an upgrade, ask about our [plumbing financing](/plumbing-financing/) options.
+We hold Georgia Master Plumber License #MP210186. Every technician arrives in uniform, protects your floors with shoe covers, explains every repair option clearly in writing, and gives you an exact flat-rate quote before any work begins. Planning a major upgrade? Explore our [plumbing financing options](/plumbing-financing/) or view all [plumbing & water heater brands we service](/plumbing-brands-serviced/).
