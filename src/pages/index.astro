@@ -3,7 +3,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import FAQ from '../components/FAQ.astro';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import { getCollection } from 'astro:content';
-import { business, phone, phoneHref } from '../data/site';
+import { business, phone, phoneHref, siteUrl } from '../data/site';
 import { getPlacementsForPage } from '../data/placements';
 
 const homePlacements = getPlacementsForPage('/');
@@ -15,7 +15,7 @@ const locationCollection = await getCollection('locations');
 const locationMap = new Map(locationCollection.map(item => [item.data.city?.toLowerCase(), item.id]));
 
 // Organized 4 columns matching the reference screenshot
-const col1Cities = ['Acworth', 'Alpharetta', 'Austell', 'Brookhaven', 'Buckhead', 'Buford', 'Chamblee', 'Clarkston', 'Cumming', 'Dacula'];
+const col1Cities = ['Acworth', 'Alpharetta', 'Atlanta', 'Austell', 'Brookhaven', 'Buckhead', 'Buford', 'Chamblee', 'Clarkston', 'Cumming', 'Dacula'];
 const col2Cities = ['Decatur', 'Doraville', 'Druid Hills', 'Duluth', 'Dunwoody', 'East Cobb', 'Flowery Branch', 'Grayson', 'Holly Springs', 'Johns Creek'];
 const col3Cities = ['Kennesaw', 'Lawrenceville', 'Lilburn', 'Mableton', 'Marietta', 'Milton', 'Norcross', 'North Decatur', 'North Druid Hills', 'Peachtree Corners', 'Powder Springs'];
 const col4Cities = ['Roswell', 'Sandy Springs', 'Smyrna', 'Snellville', 'Stone Mountain', 'Sugar Hill', 'Suwanee', 'Tucker', 'Vinings', 'Woodstock'];
@@ -35,18 +35,18 @@ const homeGeo = {
 const homeExtraSchema = [
   {
     '@type': 'Service',
-    '@id': 'https://rsandrews.247hvac.repair/#service-plumbing',
+    '@id': `${siteUrl}/#service-plumbing`,
     name: '24/7 Emergency Plumbing & Drain Cleaning in Metro Atlanta',
     serviceType: 'Plumbing Repair, Drain Cleaning, Water Heater Replacement and Maintenance',
     description: 'RS Andrews provides 24/7 emergency plumbing repair, drain cleaning, water heater repair, leak detection, and whole-house repiping across Metro Atlanta. GA Master Plumber #MP210186.',
-    image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+    image: `${siteUrl}/images/plumber-rsandrews.webp`,
     provider: {
       '@type': 'Plumber',
-      '@id': 'https://rsandrews.247hvac.repair/#business',
+      '@id': `${siteUrl}/#business`,
       name: business.name,
-      url: 'https://rsandrews.247hvac.repair',
+      url: siteUrl,
       telephone: phone,
-      image: 'https://rsandrews.247hvac.repair/images/hero.jpg',
+      image: `${siteUrl}/images/plumber-rsandrews.webp`,
       priceRange: '$$',
       address: {
         '@type': 'PostalAddress',
@@ -64,7 +64,7 @@ const homeExtraSchema = [
   },
   {
     '@type': 'FAQPage',
-    '@id': 'https://rsandrews.247hvac.repair/#faq',
+    '@id': `${siteUrl}/#faq`,
     mainEntity: [
       {
         '@type': 'Question',

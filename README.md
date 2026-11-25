@@ -27,7 +27,7 @@ npm run check:urls
 
 ## Deploy on Netlify
 
-Push this project to a GitHub repository and connect the repository in Netlify. The included `netlify.toml` sets build command `npm run build` and publish directory `dist`. Set the production domain to `rsandrews.247hvac.repair` only after reviewing the preview. Astro's `site` configuration and `public/robots.txt` currently use that final domain.
+Push this project to a GitHub repository and connect the repository in Netlify. The included `netlify.toml` sets build command `npm run build` and publish directory `dist`. Set the production domain to `rsandrews.247plumbing.repair` only after reviewing the preview. Astro's `site` configuration and `public/robots.txt` currently use that final domain.
 
 ## Before switching the domain
 

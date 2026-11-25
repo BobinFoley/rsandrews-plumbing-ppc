@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export const GET: APIRoute = async ({ site }) => {
-  const baseUrl = (site ? site.toString() : 'https://rsandrews.247hvac.repair').replace(/\/$/, '');
+  const baseUrl = (site ? site.toString() : 'https://rsandrews.247plumbing.repair').replace(/\/$/, '');
   const now = new Date().toISOString().split('T')[0];
 
   const staticRoutes = [
@@ -13,11 +13,8 @@ export const GET: APIRoute = async ({ site }) => {
     { url: '/water-heater-repair/', priority: '0.9', changefreq: 'weekly' },
     { url: '/drain-cleaning/', priority: '0.9', changefreq: 'weekly' },
     { url: '/plumbing-financing/', priority: '0.8', changefreq: 'monthly' },
-    { url: '/heating-and-air/', priority: '0.8', changefreq: 'weekly' },
-    { url: '/24-7-emergency-ac-repair/', priority: '0.8', changefreq: 'weekly' },
-    { url: '/new-hvac-system-financing/', priority: '0.7', changefreq: 'monthly' },
-    { url: '/we-repair-all-hvac-brands/', priority: '0.7', changefreq: 'monthly' },
-    { url: '/preventative-maintenance/', priority: '0.7', changefreq: 'monthly' },
+    { url: '/plumbing-brands-serviced/', priority: '0.8', changefreq: 'monthly' },
+    { url: '/preventative-maintenance/', priority: '0.8', changefreq: 'monthly' },
     { url: '/blog/', priority: '0.8', changefreq: 'weekly' },
     { url: '/sitemap/', priority: '0.7', changefreq: 'weekly' },
   ];

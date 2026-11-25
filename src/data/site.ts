@@ -1,6 +1,6 @@
 export const phone = '404-806-9284';
 export const phoneHref = 'tel:4048069284';
-export const siteUrl = 'https://rsandrews.247hvac.repair';
+export const siteUrl = 'https://rsandrews.247plumbing.repair';
 export const services = [
   { title: '24/7 Emergency Plumber', short: '24/7', href: '/24-7-emergency-plumbing/', detail: 'Burst Pipes & Clogs' },
   { title: 'Water Heater Repair', short: 'Water Heaters', href: '/water-heater-repair/', detail: 'Tank & Tankless Systems' },

@@ -37,34 +37,34 @@
       "id": "placement-emergency-hero",
       "page": "/24-7-emergency-plumbing/",
       "zone": "hero",
-      "image": "/images/hero.jpg",
+      "image": "/images/plumber-rsandrews.webp",
       "imageAlt": "RS Andrews 24/7 Emergency Plumber - Rapid Metro Atlanta Dispatch",
       "caption": "24/7 Emergency Plumber in Metro Atlanta",
       "notes": "Main hero banner on emergency plumbing page",
       "status": "active",
-      "updatedAt": "2026-10-09"
+      "updatedAt": "2026-10-12"
     },
     {
       "id": "placement-drain-hero",
       "page": "/drain-cleaning/",
       "zone": "hero",
-      "image": "/images/ac-repair31-1.jpg",
+      "image": "/images/plumber-rsandrews.webp",
       "imageAlt": "RS Andrews Professional Drain Cleaning & Hydro Jetting Services in Atlanta",
       "caption": "Drain Cleaning & Clog Clearing Metro Atlanta",
       "notes": "Hero banner on drain cleaning page",
       "status": "active",
-      "updatedAt": "2026-10-09"
+      "updatedAt": "2026-10-12"
     },
     {
       "id": "placement-water-heater-hero",
       "page": "/water-heater-repair/",
       "zone": "hero",
-      "image": "/images/furnace-install-lewisville.jpg",
+      "image": "/images/plumber-rsandrews.webp",
       "imageAlt": "RS Andrews Water Heater Repair & Tankless Replacement Atlanta",
       "caption": "Water Heater Repair & Replacement Atlanta",
       "notes": "Hero banner on water heater repair page",
       "status": "active",
-      "updatedAt": "2026-10-09"
+      "updatedAt": "2026-10-12"
     },
     {
       "id": "placement-plumbing-services-hero",
@@ -81,12 +81,12 @@
       "id": "placement-plumbing-services",
       "page": "/plumbing-services/",
       "zone": "top-content",
-      "image": "/images/heatingand-air-conditioning.jpg",
-      "imageAlt": "RS Andrews licensed plumbing technician",
+      "image": "/images/plumber-soldering-a-small-copper-joint.webp",
+      "imageAlt": "RS Andrews Master Plumber soldering copper pipe joint in Metro Atlanta",
       "caption": "Metro Atlanta plumbing and drain specialists",
       "notes": "Top feature for main plumbing services page",
       "status": "active",
-      "updatedAt": "2026-10-06"
+      "updatedAt": "2026-11-25"
     },
     {
       "id": "placement-emergency-sidebar",

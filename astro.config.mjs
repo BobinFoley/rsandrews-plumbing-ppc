@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://rsandrews.247hvac.repair',
+  site: 'https://rsandrews.247plumbing.repair',
   trailingSlash: 'always',
   integrations: [sitemap()],
   server: {

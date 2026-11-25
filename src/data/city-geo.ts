@@ -62,7 +62,7 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Atlanta plumber',
       'emergency plumber Atlanta GA',
       'drain cleaning Atlanta',
-      'emergency emergency plumber Atlanta GA',
+      'water heater repair Atlanta GA',
       'sewer line repair Atlanta',
       'plumbing service Atlanta',
       'RS Andrews Atlanta'
@@ -117,7 +117,7 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Buford plumber',
       'emergency plumber Buford GA',
       'drain cleaning Buford',
-      'emergency emergency plumber Buford GA',
+      'water heater repair Buford GA',
       'sewer line repair Buford',
       'licensed plumber Buford GA 30518',
       'master plumber Buford GA 30519',
@@ -154,7 +154,7 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Cumming plumber',
       'emergency plumber Cumming GA',
       'drain cleaning Cumming',
-      'emergency emergency plumber Cumming GA',
+      'water heater repair Cumming GA',
       'sewer line repair Cumming',
       'RS Andrews Cumming'
     ]
@@ -366,9 +366,9 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Marietta plumber',
       'emergency plumber Marietta GA',
       'drain cleaning Marietta',
-      'emergency emergency plumber Marietta GA',
+      'water heater repair Marietta GA',
       'sewer line repair Marietta',
-      'air conditioning maintenance Marietta',
+      'plumbing maintenance Marietta',
       'RS Andrews Marietta'
     ]
   },
@@ -438,9 +438,9 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Roswell plumber',
       'emergency plumber Roswell GA',
       'drain cleaning Roswell',
-      'emergency emergency plumber Roswell GA',
+      'water heater repair Roswell GA',
       'sewer line repair Roswell',
-      'air conditioning maintenance Roswell',
+      'plumbing maintenance Roswell',
       'RS Andrews Roswell'
     ]
   },
@@ -457,7 +457,7 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'Sandy Springs plumber',
       'emergency plumber Sandy Springs GA',
       'drain cleaning Sandy Springs',
-      'emergency emergency plumber Sandy Springs GA',
+      'water heater repair Sandy Springs GA',
       'sewer line repair Sandy Springs',
       'RS Andrews Sandy Springs'
     ]
@@ -602,6 +602,168 @@ export const CITY_GEO_LOOKUP: Record<string, CityGeoData> = {
       'water heater repair Woodstock GA',
       'sewer line repair Woodstock',
       'RS Andrews Woodstock'
+    ]
+  },
+  austell: {
+    city: 'Austell',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Austell, Georgia',
+    latitude: 33.8126,
+    longitude: -84.6344,
+    postalCodes: ['30106', '30168'],
+    county: 'Cobb County',
+    serviceKeywords: [
+      'Austell plumber',
+      'emergency plumber Austell GA',
+      'drain cleaning Austell',
+      'water heater repair Austell GA',
+      'sewer line repair Austell',
+      'RS Andrews Austell'
+    ]
+  },
+  clarkston: {
+    city: 'Clarkston',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Clarkston, Georgia',
+    latitude: 33.8096,
+    longitude: -84.2396,
+    postalCodes: ['30021'],
+    county: 'DeKalb County',
+    serviceKeywords: [
+      'Clarkston plumber',
+      'emergency plumber Clarkston GA',
+      'drain cleaning Clarkston',
+      'water heater repair Clarkston GA',
+      'sewer line repair Clarkston',
+      'RS Andrews Clarkston'
+    ]
+  },
+  grayson: {
+    city: 'Grayson',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Grayson, Georgia',
+    latitude: 33.8937,
+    longitude: -83.9557,
+    postalCodes: ['30017'],
+    county: 'Gwinnett County',
+    serviceKeywords: [
+      'Grayson plumber',
+      'emergency plumber Grayson GA',
+      'drain cleaning Grayson',
+      'water heater repair Grayson GA',
+      'sewer line repair Grayson',
+      'RS Andrews Grayson'
+    ]
+  },
+  'holly-springs': {
+    city: 'Holly Springs',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Holly Springs, Georgia',
+    latitude: 34.1743,
+    longitude: -84.5024,
+    postalCodes: ['30115', '30142'],
+    county: 'Cherokee County',
+    serviceKeywords: [
+      'Holly Springs plumber',
+      'emergency plumber Holly Springs GA',
+      'drain cleaning Holly Springs',
+      'water heater repair Holly Springs GA',
+      'sewer line repair Holly Springs',
+      'RS Andrews Holly Springs'
+    ]
+  },
+  lilburn: {
+    city: 'Lilburn',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Lilburn, Georgia',
+    latitude: 33.8901,
+    longitude: -84.1430,
+    postalCodes: ['30047'],
+    county: 'Gwinnett County',
+    serviceKeywords: [
+      'Lilburn plumber',
+      'emergency plumber Lilburn GA',
+      'drain cleaning Lilburn',
+      'water heater repair Lilburn GA',
+      'sewer line repair Lilburn',
+      'RS Andrews Lilburn'
+    ]
+  },
+  mableton: {
+    city: 'Mableton',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Mableton, Georgia',
+    latitude: 33.8187,
+    longitude: -84.5824,
+    postalCodes: ['30126'],
+    county: 'Cobb County',
+    serviceKeywords: [
+      'Mableton plumber',
+      'emergency plumber Mableton GA',
+      'drain cleaning Mableton',
+      'water heater repair Mableton GA',
+      'sewer line repair Mableton',
+      'RS Andrews Mableton'
+    ]
+  },
+  'north-decatur': {
+    city: 'North Decatur',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'North Decatur, Georgia',
+    latitude: 33.8032,
+    longitude: -84.2899,
+    postalCodes: ['30033'],
+    county: 'DeKalb County',
+    serviceKeywords: [
+      'North Decatur plumber',
+      'emergency plumber North Decatur GA',
+      'drain cleaning North Decatur',
+      'water heater repair North Decatur GA',
+      'sewer line repair North Decatur',
+      'RS Andrews North Decatur'
+    ]
+  },
+  'north-druid-hills': {
+    city: 'North Druid Hills',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'North Druid Hills, Georgia',
+    latitude: 33.8168,
+    longitude: -84.3266,
+    postalCodes: ['30329', '30033'],
+    county: 'DeKalb County',
+    serviceKeywords: [
+      'North Druid Hills plumber',
+      'emergency plumber North Druid Hills GA',
+      'drain cleaning North Druid Hills',
+      'water heater repair North Druid Hills GA',
+      'sewer line repair North Druid Hills',
+      'RS Andrews North Druid Hills'
+    ]
+  },
+  'powder-springs': {
+    city: 'Powder Springs',
+    state: 'GA',
+    region: 'US-GA',
+    placename: 'Powder Springs, Georgia',
+    latitude: 33.8595,
+    longitude: -84.6838,
+    postalCodes: ['30127'],
+    county: 'Cobb County',
+    serviceKeywords: [
+      'Powder Springs plumber',
+      'emergency plumber Powder Springs GA',
+      'drain cleaning Powder Springs',
+      'water heater repair Powder Springs GA',
+      'sewer line repair Powder Springs',
+      'RS Andrews Powder Springs'
     ]
   }
 };

@@ -4,7 +4,7 @@ description: "Compare efficiency, hot water capacity, upfront costs, and lifespa
 pubDate: 2026-04-10
 author: "RS Andrews Plumbing Team"
 category: "Water Heaters"
-image: "/images/hvac-install.jpg"
+image: "/images/tankless-water-heater5fg.webp"
 imageAlt: "Modern energy-efficient water heater installation"
 tags: ["Tankless Water Heater", "Water Heater Repair", "Energy Savings"]
 ---

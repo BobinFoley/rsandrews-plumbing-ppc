@@ -4,7 +4,7 @@ description: "Learn how flexible monthly payment options, zero down terms, and p
 pubDate: 2026-03-05
 author: "RS Andrews Financial Team"
 category: "Plumbing Financing"
-image: "/images/furnace-install-lewisville.jpg"
+image: "/images/residential-plumbing-brands-fixtures-appliances.webp"
 imageAlt: "Homeowner discussing plumbing financing options with technician"
 tags: ["Plumbing Financing", "Water Heater Replacement", "Repiping"]
 ---

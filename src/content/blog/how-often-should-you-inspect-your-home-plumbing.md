@@ -4,7 +4,7 @@ description: "Discover the ideal preventative plumbing inspection schedule for w
 pubDate: 2026-05-20
 author: "RS Andrews Plumbing Team"
 category: "Plumbing Maintenance"
-image: "/images/heatingand-air-conditioning.jpg"
+image: "/images/2558-rheem-water-heater-installation.webp"
 imageAlt: "RS Andrews plumber performing a preventative plumbing inspection"
 tags: ["Plumbing Inspection", "Water Pressure", "Water Heater Maintenance"]
 ---

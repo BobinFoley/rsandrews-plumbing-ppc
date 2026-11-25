@@ -6,3 +6,211 @@ publish = "dist"
 from = "/sitemap.xml"
 to = "/sitemap-index.xml"
 status = 301
+
+# Legacy HVAC service slug redirects to clean plumbing routes
+[[redirects]]
+from = "/24-7-emergency-ac-repair/*"
+to = "/24-7-emergency-plumbing/"
+status = 301
+
+[[redirects]]
+from = "/heating-and-air/*"
+to = "/plumbing-services/"
+status = 301
+
+[[redirects]]
+from = "/new-hvac-system-financing/*"
+to = "/plumbing-financing/"
+status = 301
+
+[[redirects]]
+from = "/we-repair-all-hvac-brands/*"
+to = "/plumbing-brands-serviced/"
+status = 301
+
+# Legacy HVAC blog post redirects to plumbing blog posts
+[[redirects]]
+from = "/blog/5-signs-your-ac-needs-emergency-repair/*"
+to = "/blog/5-warning-signs-you-need-an-emergency-plumber/"
+status = 301
+
+[[redirects]]
+from = "/blog/heat-pump-vs-furnace-georgia-guide/*"
+to = "/blog/tankless-vs-tank-water-heaters-georgia-guide/"
+status = 301
+
+[[redirects]]
+from = "/blog/how-often-should-you-service-your-hvac/*"
+to = "/blog/how-often-should-you-inspect-your-home-plumbing/"
+status = 301
+
+[[redirects]]
+from = "/blog/understanding-hvac-financing-options/*"
+to = "/blog/understanding-plumbing-financing-options/"
+status = 301
+
+# Legacy city *-air-conditioning-repair redirects to *-plumber
+[[redirects]]
+from = "/acworth-air-conditioning-repair/*"
+to = "/acworth-plumber/"
+status = 301
+
+[[redirects]]
+from = "/alpharetta-air-conditioning-repair/*"
+to = "/alpharetta-plumber/"
+status = 301
+
+[[redirects]]
+from = "/atlanta-air-conditioning-repair/*"
+to = "/atlanta-plumber/"
+status = 301
+
+[[redirects]]
+from = "/brookhaven-air-conditioning-repair/*"
+to = "/brookhaven-plumber/"
+status = 301
+
+[[redirects]]
+from = "/buckhead-air-conditioning-repair/*"
+to = "/buckhead-plumber/"
+status = 301
+
+[[redirects]]
+from = "/buford-air-conditioning-repair/*"
+to = "/buford-plumber/"
+status = 301
+
+[[redirects]]
+from = "/chamblee-air-conditioning-repair/*"
+to = "/chamblee-plumber/"
+status = 301
+
+[[redirects]]
+from = "/cumming-air-conditioning-repair/*"
+to = "/cumming-plumber/"
+status = 301
+
+[[redirects]]
+from = "/dacula-air-conditioning-repair/*"
+to = "/dacula-plumber/"
+status = 301
+
+[[redirects]]
+from = "/decatur-air-conditioning-repair/*"
+to = "/decatur-plumber/"
+status = 301
+
+[[redirects]]
+from = "/doraville-air-conditioning-repair/*"
+to = "/doraville-plumber/"
+status = 301
+
+[[redirects]]
+from = "/druid-hills-air-conditioning-repair/*"
+to = "/druid-hills-plumber/"
+status = 301
+
+[[redirects]]
+from = "/duluth-air-conditioning-repair/*"
+to = "/duluth-plumber/"
+status = 301
+
+[[redirects]]
+from = "/dunwoody-air-conditioning-repair/*"
+to = "/dunwoody-plumber/"
+status = 301
+
+[[redirects]]
+from = "/east-cobb-air-conditioning-repair/*"
+to = "/east-cobb-plumber/"
+status = 301
+
+[[redirects]]
+from = "/flowery-branch-air-conditioning-repair/*"
+to = "/flowery-branch-plumber/"
+status = 301
+
+[[redirects]]
+from = "/johns-creek-air-conditioning-repair/*"
+to = "/johns-creek-plumber/"
+status = 301
+
+[[redirects]]
+from = "/kennesaw-air-conditioning-repair/*"
+to = "/kennesaw-plumber/"
+status = 301
+
+[[redirects]]
+from = "/lawrenceville-air-conditioning-repair/*"
+to = "/lawrenceville-plumber/"
+status = 301
+
+[[redirects]]
+from = "/marietta-air-conditioning-repair/*"
+to = "/marietta-plumber/"
+status = 301
+
+[[redirects]]
+from = "/milton-air-conditioning-repair/*"
+to = "/milton-plumber/"
+status = 301
+
+[[redirects]]
+from = "/norcross-air-conditioning-repair/*"
+to = "/norcross-plumber/"
+status = 301
+
+[[redirects]]
+from = "/peachtree-corners-air-conditioning-repair/*"
+to = "/peachtree-corners-plumber/"
+status = 301
+
+[[redirects]]
+from = "/roswell-air-conditioning-repair/*"
+to = "/roswell-plumber/"
+status = 301
+
+[[redirects]]
+from = "/sandy-springs-air-conditioning-repair/*"
+to = "/sandy-springs-plumber/"
+status = 301
+
+[[redirects]]
+from = "/smyrna-air-conditioning-repair/*"
+to = "/smyrna-plumber/"
+status = 301
+
+[[redirects]]
+from = "/snellville-air-conditioning-repair/*"
+to = "/snellville-plumber/"
+status = 301
+
+[[redirects]]
+from = "/stone-mountain-air-conditioning-repair/*"
+to = "/stone-mountain-plumber/"
+status = 301
+
+[[redirects]]
+from = "/sugar-hill-air-conditioning-repair/*"
+to = "/sugar-hill-plumber/"
+status = 301
+
+[[redirects]]
+from = "/suwanee-air-conditioning-repair/*"
+to = "/suwanee-plumber/"
+status = 301
+
+[[redirects]]
+from = "/tucker-air-conditioning-repair/*"
+to = "/tucker-plumber/"
+status = 301
+
+[[redirects]]
+from = "/vinings-air-conditioning-repair/*"
+to = "/vinings-plumber/"
+status = 301
+
+[[redirects]]
+from = "/woodstock-air-conditioning-repair/*"
+to = "/woodstock-plumber/"
+status = 301

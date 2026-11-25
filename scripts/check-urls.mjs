@@ -5,17 +5,13 @@ const expected = [
   '/',
   '/sitemap/',
   '/blog/',
-  '/pictures/',
   '/plumbing-services/',
   '/24-7-emergency-plumbing/',
   '/water-heater-repair/',
   '/drain-cleaning/',
   '/plumbing-financing/',
-  '/24-7-emergency-ac-repair/',
-  '/new-hvac-system-financing/',
-  '/we-repair-all-hvac-brands/',
-  '/preventative-maintenance/',
-  '/heating-and-air/'
+  '/plumbing-brands-serviced/',
+  '/preventative-maintenance/'
 ];
 for (const name of fs.readdirSync('src/content/locations')) expected.push(`/${name.replace(/\.md$/, '')}/`);
 if (fs.existsSync('src/content/blog')) {

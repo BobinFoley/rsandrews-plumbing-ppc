@@ -2,13 +2,13 @@
 import { getCollection } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import GoogleReviews from '../../components/GoogleReviews.astro';
-import { phone, phoneHref, services } from '../../data/site';
+import { phone, phoneHref, services, siteUrl } from '../../data/site';
 import { getPlacementsForPage } from '../../data/placements';
 
-const blogPlacements = getPlacementsForPage('/blog/');
-const blogHeroPlacement = blogPlacements.find(p => p.zone === 'hero');
-const blogHeroImage = blogHeroPlacement?.image || '/images/plumber-rsandrews.webp';
-const blogHeroAlt = blogHeroPlacement?.imageAlt || 'RS Andrews Plumbing Advice & Metro Atlanta Homeowner Guides';
+const homePlacements = getPlacementsForPage('/');
+const homeHeroPlacement = homePlacements.find(p => p.zone === 'hero');
+const blogHeroImage = homeHeroPlacement?.image || '/images/plumber-rsandrews.webp';
+const blogHeroAlt = homeHeroPlacement?.imageAlt || 'RS Andrews 24/7 Emergency Plumbing Services in Metro Atlanta';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
@@ -28,19 +28,19 @@ const blogIndexKeywords = "Atlanta plumbing blog, plumbing advice, water heater 
 const blogIndexExtraSchema = [
   {
     '@type': 'BreadcrumbList',
-    '@id': 'https://rsandrews.247hvac.repair/blog/#breadcrumb',
+    '@id': `${siteUrl}/blog/#breadcrumb`,
     itemListElement: [
       {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://rsandrews.247hvac.repair/'
+        item: `${siteUrl}/`
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Plumbing Blog',
-        item: 'https://rsandrews.247hvac.repair/blog/'
+        item: `${siteUrl}/blog/`
       }
     ]
   }

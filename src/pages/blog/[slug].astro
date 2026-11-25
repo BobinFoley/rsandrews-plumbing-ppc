@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import GoogleReviews from '../../components/GoogleReviews.astro';
-import { phone, phoneHref, services } from '../../data/site';
+import { phone, phoneHref, services, siteUrl } from '../../data/site';
 import { getPlacementsForPage } from '../../data/placements';
 
 export async function getStaticPaths() {
@@ -21,6 +21,11 @@ const otherPosts = allPosts.filter(p => p.id !== entry.id).slice(0, 3);
 const currentPath = `/blog/${entry.id}/`;
 const placements = getPlacementsForPage(currentPath);
 
+const homePlacements = getPlacementsForPage('/');
+const homeHeroPlacement = homePlacements.find(p => p.zone === 'hero');
+const siteHeroImage = homeHeroPlacement?.image || '/images/plumber-rsandrews.webp';
+const siteHeroAlt = homeHeroPlacement?.imageAlt || 'RS Andrews 24/7 Emergency Plumbing Services in Metro Atlanta';
+
 // Check if admin specified an override image for this blog post
 const heroPlacement = placements.find(p => p.zone === 'hero' || p.zone === 'top-content');
 const featuredImage = heroPlacement?.image || entry.data.image;
@@ -37,7 +42,7 @@ function formatDate(date: Date) {
   });
 }
 
-const canonicalUrl = `https://rsandrews.247hvac.repair${currentPath}`;
+const canonicalUrl = `${siteUrl}${currentPath}`;
 const postKeywords = entry.data.tags && entry.data.tags.length > 0
   ? entry.data.tags.join(', ')
   : 'Plumbing advice Atlanta, water heater repair guide, drain cleaning tips, RS Andrews';
@@ -52,12 +57,12 @@ const postExtraSchema = [
     author: {
       '@type': 'Organization',
       name: entry.data.author || 'RS Andrews Team',
-      url: 'https://rsandrews.247hvac.repair'
+      url: siteUrl
     },
     publisher: {
       '@type': 'Plumber',
       name: 'RS Andrews Plumbing',
-      url: 'https://rsandrews.247hvac.repair',
+      url: siteUrl,
       telephone: phone
     },
     mainEntityOfPage: {
@@ -73,13 +78,13 @@ const postExtraSchema = [
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://rsandrews.247hvac.repair/'
+        item: `${siteUrl}/`
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Plumbing Blog',
-        item: 'https://rsandrews.247hvac.repair/blog/'
+        item: `${siteUrl}/blog/`
       },
       {
         '@type': 'ListItem',
@@ -101,6 +106,19 @@ const postExtraSchema = [
   keywords={postKeywords}
   extraSchema={postExtraSchema}
 >
+  <!-- Top Hero Banner -->
+  <section class="home-slider-hero" aria-label="RS Andrews Emergency Plumbing Hero">
+    <img
+      id="site-hero-img"
+      src={siteHeroImage}
+      alt={siteHeroAlt}
+      width="1376"
+      height="768"
+      loading="eager"
+      referrerpolicy="no-referrer"
+    />
+  </section>
+
   <!-- Royal Blue Title Ribbon -->
   <div class="blue-title-ribbon">
     <div class="container">

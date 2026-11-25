@@ -4,7 +4,7 @@ description: "Know when a home plumbing issue is an urgent emergency. Learn what
 pubDate: 2026-06-15
 author: "RS Andrews Plumbing Team"
 category: "Plumbing Repair"
-image: "/images/ac-repair31-1.jpg"
+image: "/images/plumber-soldering-a-small-copper-joint.webp"
 imageAlt: "RS Andrews plumber inspecting residential water line and plumbing equipment"
 tags: ["Emergency Plumber", "Leak Detection", "Plumbing Tips"]
 ---
